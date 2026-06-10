@@ -1,6 +1,12 @@
 Options +FollowSymLinks -MultiViews
 RewriteEngine On
 
+# If a static file does not exist on the server, return 404 immediately
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} \.(js|css|png|jpg|jpeg|gif|ico|svg|json|map)$ [NC]
+RewriteRule ^ - [R=404,L]
+
+# Fallback to index.html for SPA routing
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ index.html [L]
