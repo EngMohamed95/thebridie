@@ -15,12 +15,14 @@ async function check() {
   try {
     await client.access(config);
     await client.cd('/public_html');
+    const rootList = await client.list();
+    console.log('--- ROOT FILES ---');
+    rootList.forEach(f => console.log(' ', f.name, f.type, f.rawPermissions, f.permissions));
     
-    await client.downloadTo('downloaded-htaccess', '.htaccess');
-    const content = fs.readFileSync('downloaded-htaccess', 'utf8');
-    console.log('--- .htaccess CONTENT ---');
-    console.log(content);
-    console.log('------------------------');
+    await client.cd('/public_html/static');
+    const staticList = await client.list();
+    console.log('--- STATIC FILES ---');
+    staticList.forEach(f => console.log(' ', f.name, f.type, f.rawPermissions, f.permissions));
   } catch (err) {
     console.error('Error:', err.message);
   } finally {
