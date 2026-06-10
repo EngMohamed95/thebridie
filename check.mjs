@@ -1,4 +1,5 @@
 import * as ftp from 'basic-ftp';
+import fs from 'fs';
 
 const config = {
   host: '72.52.136.5',
@@ -14,9 +15,12 @@ async function check() {
   try {
     await client.access(config);
     await client.cd('/public_html');
-    const list = await client.list();
-    console.log('Files on server:');
-    list.forEach(f => console.log(' ', f.type === 2 ? '[DIR]' : '[FILE]', f.name));
+    
+    await client.downloadTo('downloaded-htaccess', '.htaccess');
+    const content = fs.readFileSync('downloaded-htaccess', 'utf8');
+    console.log('--- .htaccess CONTENT ---');
+    console.log(content);
+    console.log('------------------------');
   } catch (err) {
     console.error('Error:', err.message);
   } finally {

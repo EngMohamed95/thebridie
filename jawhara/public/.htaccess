@@ -1,3 +1,6 @@
-location / {
-    try_files $uri $uri/ /index.html;
-}
+Options +FollowSymLinks -MultiViews
+RewriteEngine On
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.html [L]
