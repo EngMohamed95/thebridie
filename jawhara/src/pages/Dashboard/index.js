@@ -315,12 +315,12 @@ const buildCatTree = (cats, parentId = null) =>
 const flattenTree = (nodes, depth = 0) =>
   nodes.flatMap(n => [{ ...n, depth }, ...flattenTree(n.children || [], depth + 1)]);
 
-const getDescendantSlugs = (slug, cats) => {
-  const cat = cats.find(c => c.slug === slug);
-  if (!cat) return [];
-  const children = cats.filter(c => c.parentId === cat.id);
-  return [...children.map(c => c.slug), ...children.flatMap(c => getDescendantSlugs(c.slug, cats))];
-};
+// const getDescendantSlugs = (slug, cats) => {
+//   const cat = cats.find(c => c.slug === slug);
+//   if (!cat) return [];
+//   const children = cats.filter(c => c.parentId === cat.id);
+//   return [...children.map(c => c.slug), ...children.flatMap(c => getDescendantSlugs(c.slug, cats))];
+// };
 
 const Dashboard = () => {
   const {
@@ -452,14 +452,13 @@ const Dashboard = () => {
   const [productErr,   setProductErr]   = useState('');
 
   const openAddProduct  = () => { setProductForm(emptyProduct); setProductErr(''); setProductSaved(false); setProductModal('add'); };
-  const openEditProduct = (p) => {
-    setProductForm({ name: p.name, nameEn: p.nameEn || '', sku: p.sku || '', category: p.category, price: p.price, stock: p.stock, status: p.status, image: p.image || '', gallery: p.gallery || [], desc: p.desc || '', descEn: p.descEn || '', badge: p.badge || '', isPhysical: p.isPhysical !== false, weight: p.weight || '', dimLength: p.dimLength || '', dimWidth: p.dimWidth || '', dimHeight: p.dimHeight || '', countryOfOrigin: p.countryOfOrigin || 'KW', hsCode: p.hsCode || '', variants: p.variants || [] });
-    setEditProduct(p); setProductErr(''); setProductSaved(false); setProductModal('edit');
-  };
-  const closeProductModal = () => { setProductModal(null); setEditProduct(null); setProductImagePreview(''); setProductGalleryPreviews([]); };
+  // const openEditProduct = (p) => {
+  //   setProductForm({ name: p.name, nameEn: p.nameEn || '', sku: p.sku || '', category: p.category, price: p.price, stock: p.stock, status: p.status, image: p.image || '', gallery: p.gallery || [], desc: p.desc || '', descEn: p.descEn || '', badge: p.badge || '', isPhysical: p.isPhysical !== false, weight: p.weight || '', dimLength: p.dimLength || '', dimWidth: p.dimWidth || '', dimHeight: p.dimHeight || '', countryOfOrigin: p.countryOfOrigin || 'KW', hsCode: p.hsCode || '', variants: p.variants || [] });
+  //   setEditProduct(p); setProductErr(''); setProductSaved(false); setProductModal('edit');
+  // };
+  const closeProductModal = () => { setProductModal(null); setEditProduct(null); setProductImagePreview(''); };
 
   const [productImagePreview,   setProductImagePreview]   = useState('');
-  const [productGalleryPreviews,setProductGalleryPreviews]= useState([]);
   const [uploadingImg,          setUploadingImg]          = useState(false);
 
   const uploadFile = async (file) => {
@@ -499,13 +498,11 @@ const Dashboard = () => {
     setUploadingImg(true);
     const urls = await uploadFiles(files);
     setProductForm(p => ({ ...p, gallery: [...(p.gallery || []), ...urls] }));
-    setProductGalleryPreviews(prev => [...prev, ...urls]);
     setUploadingImg(false);
   };
 
   const removeGalleryImage = (idx) => {
     setProductForm(p => ({ ...p, gallery: p.gallery.filter((_, i) => i !== idx) }));
-    setProductGalleryPreviews(prev => prev.filter((_, i) => i !== idx));
   };
 
   const handleProductSave = async (e) => {
