@@ -88,7 +88,21 @@ async function deploy() {
     // ── 2. رفع الـ build كاملاً ──
     console.log('\n📦 Uploading build to server...');
     await client.ensureDir(REMOTE_DIR);
-    await client.clearWorkingDir();
+    // safe clear working dir to avoid throwing errors on 550 or permission issues
+    console.log('🧹 Clearing remote working directory safely...');
+    const list = await client.list();
+    for (const item of list) {
+      try {
+        if (item.isDirectory) {
+          await client.removeDir(item.name);
+        } else {
+          await client.remove(item.name);
+        }
+      } catch (err) {
+        console.warn(`   ⚠️  Could not delete ${item.name}: ${err.message}`);
+      }
+    }
+
     await client.uploadFromDir(BUILD_DIR);
     console.log('✅ Build uploaded');
 

@@ -27,8 +27,21 @@ async function deploy() {
     console.log('Connected!');
     console.log('Local path:', LOCAL_BUILD);
     console.log('Uploading to', REMOTE_DIR, '...');
-    await client.ensureDir(REMOTE_DIR);
-    await client.clearWorkingDir();
+    // safe clear working dir to avoid throwing errors on 550 or permission issues
+    console.log('🧹 Clearing remote working directory safely...');
+    const list = await client.list();
+    for (const item of list) {
+      try {
+        if (item.isDirectory) {
+          await client.removeDir(item.name);
+        } else {
+          await client.remove(item.name);
+        }
+      } catch (err) {
+        console.warn(`   ⚠️  Could not delete ${item.name}: ${err.message}`);
+      }
+    }
+
     await client.uploadFromDir(LOCAL_BUILD);
     console.log('Done! https://thebridie.com'); // TODO: Update to your new domain
   } catch (err) {

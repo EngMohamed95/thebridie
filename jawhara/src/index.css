@@ -43,7 +43,7 @@ html {
 }
 
 body {
-  --cf-cache-buster-css: 3;
+  --cf-cache-buster-css: 4;
   font-family: 'Tajawal', sans-serif;
   font-size: 16px;
   line-height: 1.6;
