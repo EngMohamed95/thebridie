@@ -9,5 +9,5 @@ root.render(
     <App />
   </React.StrictMode>
 );
-// cache buster: 1
+console.log('Build v2');
 
