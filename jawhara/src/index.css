@@ -689,3 +689,7 @@ tr:hover td { background: var(--bg); }
   background: var(--primary); color: white; border-color: var(--primary);
 }
 .variant-picker-sm .variant-pill { padding: 3px 9px; font-size: 0.75rem; }
+
+/* cache buster */
+.cf-cache-buster-css { display: none; }
+
