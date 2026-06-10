@@ -2,9 +2,9 @@ import * as ftp from 'basic-ftp';
 import path from 'path';
 
 const config = {
-  host: 'aljawhara.matix.one',
-  user: 'aljawharamatix',
-  password: '^!Z~-VWSpQe*,.lk',
+  host: '72.52.136.5',
+  user: 'thebridiecom',
+  password: 'yH5+3-MNapc%AC{',
   secure: true,
   secureOptions: { rejectUnauthorized: false },
   port: 21,

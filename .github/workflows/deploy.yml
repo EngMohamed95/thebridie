@@ -1,0 +1,42 @@
+name: Build and Deploy to cPanel
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: './jawhara/package-lock.json'
+
+      - name: Install Dependencies
+        run: |
+          cd jawhara
+          npm install
+
+      - name: Build React App
+        run: |
+          cd jawhara
+          npm run build
+
+      - name: Deploy to cPanel
+        run: |
+          cd jawhara
+          node scripts/deploy.js
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_PORT: 21
+          CI: true

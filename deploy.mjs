@@ -2,11 +2,10 @@ import * as ftp from 'basic-ftp';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// TODO: Replace with your new hosting FTP credentials
 const config = {
-  host: 'aljawhara.matix.one', // Replace with your new FTP host (e.g., 'ftp.thebridie.com')
-  user: 'aljawharamatix',     // Replace with your new FTP username
-  password: '^!Z~-VWSpQe*,.lk', // Replace with your new FTP password
+  host: '72.52.136.5', // Replace with your new FTP host (e.g., 'ftp.thebridie.com')
+  user: 'thebridiecom',     // Replace with your new FTP username
+  password: 'yH5+3-MNapc%AC{', // Replace with your new FTP password
   secure: true,
   secureOptions: { rejectUnauthorized: false },
   port: 21,

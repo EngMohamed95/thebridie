@@ -10,14 +10,13 @@ const path = require('path');
 const fs   = require('fs');
 const { execSync } = require('child_process');
 
-// TODO: Replace with your new hosting FTP credentials
 const FTP = {
-  host: 'aljawhara.matix.one', // Replace with your new FTP host (e.g., 'ftp.thebridie.com')
-  user: 'aljawharamatix',     // Replace with your new FTP username
-  password: '^!Z~-VWSpQe*,.lk', // Replace with your new FTP password
+  host: process.env.FTP_HOST || '72.52.136.5', // Replace with your new FTP host (e.g., 'ftp.thebridie.com')
+  user: process.env.FTP_USER || 'thebridiecom',     // Replace with your new FTP username
+  password: process.env.FTP_PASSWORD || 'yH5+3-MNapc%AC{', // Replace with your new FTP password
   secure: true,
   secureOptions: { rejectUnauthorized: false },
-  port: 21,
+  port: parseInt(process.env.FTP_PORT || '21', 10),
 };
 
 const BUILD_DIR      = path.join(__dirname, '..', 'build');
@@ -110,6 +109,13 @@ async function deploy() {
   }
 
   // Git push
+  if (process.env.CI) {
+    console.log('⏭️ Running in CI/GitHub Actions — skipping Git push from script.');
+    console.log('🎉 Done!');
+    console.log('   🌐 Live:   https://thebridie.com'); // TODO: Update to your new domain
+    return;
+  }
+
   try {
     console.log('📤 Pushing to GitHub...');
     execSync('git add -A', { stdio: 'inherit' });
