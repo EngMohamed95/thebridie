@@ -111,6 +111,7 @@ async function deploy() {
       await client.uploadFrom(LOCAL_BACKUP, REMOTE_DATA);
       console.log('✅ Server data restored — no data loss\n');
     } else {
+      await client.uploadFrom(LOCAL_TEMPLATE, REMOTE_DATA);
       console.log('✅ Template data.json uploaded\n');
     }
 
