@@ -31,6 +31,16 @@ function respond($data, $code = 200) {
     exit;
 }
 
+$cachedColumns = [];
+function getTableColumns($pdo, $table) {
+    global $cachedColumns;
+    if (!isset($cachedColumns[$table])) {
+        $stmt = $pdo->query("SHOW COLUMNS FROM `$table`");
+        $cachedColumns[$table] = $stmt->fetchAll(PDO::FETCH_COLUMN) ?: [];
+    }
+    return $cachedColumns[$table];
+}
+
 // Post-processes rows from MySQL to match expected client JSON structure
 function postProcessRow($resource, $row) {
     if (!$row) return $row;
@@ -182,11 +192,10 @@ if ($method === 'GET' && $id === null) {
     $where = [];
     $params = [];
     
+    $columns = getTableColumns($pdo, $table);
     foreach ($query as $k => $v) {
         // Only filter on columns that actually exist in the table to prevent SQL errors
-        $chk = $pdo->prepare("SHOW COLUMNS FROM `$table` LIKE ?");
-        $chk->execute([$k]);
-        if ($chk->fetch()) {
+        if (in_array($k, $columns)) {
             $where[] = "`$k` = :$k";
             $params[$k] = $v;
         }
@@ -232,11 +241,10 @@ if ($method === 'POST') {
     $placeholders = [];
     $params = [];
     
+    $columns = getTableColumns($pdo, $table);
     foreach ($body as $k => $v) {
         // Check if column exists
-        $chk = $pdo->prepare("SHOW COLUMNS FROM `$table` LIKE ?");
-        $chk->execute([$k]);
-        if ($chk->fetch()) {
+        if (in_array($k, $columns)) {
             $keys[] = "`$k`";
             $placeholders[] = ":$k";
             $params[$k] = preProcessField($resource, $k, $v);
@@ -269,12 +277,11 @@ if ($method === 'PUT' && $id !== null) {
     $fields = [];
     $params = ['_id' => $id];
     
+    $columns = getTableColumns($pdo, $table);
     foreach ($body as $k => $v) {
         if ($k === 'id') continue;
         // Check if column exists
-        $chk = $pdo->prepare("SHOW COLUMNS FROM `$table` LIKE ?");
-        $chk->execute([$k]);
-        if ($chk->fetch()) {
+        if (in_array($k, $columns)) {
             $fields[] = "`$k` = :$k";
             $params[$k] = preProcessField($resource, $k, $v);
         }
