@@ -2,10 +2,10 @@
 /**
  * Al-Jawhara Database Connection
  */
-define('DB_HOST', '127.0.0.1');
-define('DB_NAME', 'aljwhra');
-define('DB_USER', 'aljwhra');
-define('DB_PASS', 'M5LLBcpan5bX4Jka');
+define('DB_HOST', 'localhost');
+define('DB_NAME', 'thebridiecom_web');
+define('DB_USER', 'thebridiecom_web');
+define('DB_PASS', 'zg[Oe+,@[{2KGTS%');
 define('DB_CHARSET', 'utf8mb4');
 
 try {
