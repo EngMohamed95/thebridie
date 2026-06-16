@@ -14,6 +14,7 @@ const Footer = () => {
     { path: '/#shop',      label: t('nav.shop') },
     { path: '/#customize', label: t('nav.customize') },
     { path: '/#tryon',     label: t('nav.tryon') },
+    { path: '/track',      label: t('nav.trackOrder') },
   ];
 
   return (

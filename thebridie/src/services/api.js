@@ -34,6 +34,7 @@ const api = {
   createOrder:  (data)  => req('orders',       { method: 'POST', body: JSON.stringify(data) }),
   updateOrder:  (id, d) => req(`orders/${id}`, { method: 'PUT',  body: JSON.stringify(d) }),
   deleteOrder:  (id)    => req(`orders/${id}`, { method: 'DELETE' }),
+  findOrder:    (ref)   => req(`orders?ref=${encodeURIComponent(ref)}`),
 
   // Users
   getUsers:    ()      => req('users'),

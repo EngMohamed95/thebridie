@@ -208,87 +208,94 @@ $html = <<<HTML
 <!DOCTYPE html>
 <html dir="{$dir}" lang="{$lang}">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head>
-<body style="margin:0;padding:0;background:#f5f7fa;font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:{$dir};">
-<table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f7fa;padding:30px 0;">
+<body style="margin:0;padding:0;background:#fdeaf0;font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:{$dir};">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#fdeaf0;padding:30px 0;">
 <tr><td align="center">
-<table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);">
+<table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff;border-radius:18px;overflow:hidden;box-shadow:0 8px 30px rgba(216,92,124,0.12);border:1px solid #f6d2de;">
 
   <!-- Header -->
-  <tr><td style="background:linear-gradient(135deg,#1e40af,#1d4ed8);padding:40px;text-align:center;">
-    <div style="display:inline-block;background:#ffffff;border-radius:16px;padding:14px 32px;box-shadow:0 4px 16px rgba(0,0,0,0.2);">
+  <tr><td style="background:linear-gradient(135deg,#e87b98,#d85c7c);padding:40px;text-align:center;">
+    <div style="display:inline-block;background:#ffffff;border-radius:16px;padding:14px 32px;box-shadow:0 4px 16px rgba(0,0,0,0.15);">
       <img src="https://thebridie.com/logos/logo2.png?v=2" alt="The Bridie" style="height:60px;max-width:180px;display:block;object-fit:contain;" />
     </div>
   </td></tr>
 
   <!-- Welcome -->
   <tr><td style="padding:36px 40px 24px;">
-    <h2 style="margin:0 0 12px;color:#111827;font-size:22px;">{$t['welcome']}</h2>
-    <p style="margin:0;color:#4b5563;font-size:15px;line-height:1.7;">{$t['msg']}</p>
+    <h2 style="margin:0 0 12px;color:#1a1a1a;font-size:22px;font-family:'Cormorant Garamond',serif;font-weight:700;">{$t['welcome']}</h2>
+    <p style="margin:0;color:#444444;font-size:15px;line-height:1.7;">{$t['msg']}</p>
   </td></tr>
 
   <!-- Order Info -->
   <tr><td style="padding:0 40px 24px;">
-    <table width="100%" cellpadding="0" cellspacing="0" style="background:#f9fafb;border-radius:8px;border:1px solid #e5e7eb;">
-      <tr><td style="padding:16px 20px;border-bottom:1px solid #e5e7eb;">
-        <span style="color:#6b7280;font-size:13px;">{$t['orderRef']}</span>
-        <span style="float:left;color:#1d4ed8;font-weight:700;font-size:15px;font-family:monospace;">{$orderRef}</span>
+    <table width="100%" cellpadding="0" cellspacing="0" style="background:#fdeaf0;border-radius:12px;border:1px solid #f6d2de;">
+      <tr><td style="padding:16px 20px;border-bottom:1px solid #f6d2de;">
+        <span style="color:#444444;font-size:13px;font-weight:500;">{$t['orderRef']}</span>
+        <span style="float:left;color:#d85c7c;font-weight:700;font-size:15px;font-family:monospace;">{$orderRef}</span>
       </td></tr>
-      <tr><td style="padding:16px 20px;border-bottom:1px solid #e5e7eb;">
-        <span style="color:#6b7280;font-size:13px;">{$t['orderDate']}</span>
-        <span style="float:left;color:#374151;font-size:14px;">{$orderDate}</span>
+      <tr><td style="padding:16px 20px;border-bottom:1px solid #f6d2de;">
+        <span style="color:#444444;font-size:13px;font-weight:500;">{$t['orderDate']}</span>
+        <span style="float:left;color:#1a1a1a;font-size:14px;">{$orderDate}</span>
       </td></tr>
-      <tr><td style="padding:16px 20px;border-bottom:1px solid #e5e7eb;">
-        <span style="color:#6b7280;font-size:13px;">{$t['paymentMethod']}</span>
-        <span style="float:left;color:#374151;font-size:14px;">{$paymentLabel}</span>
+      <tr><td style="padding:16px 20px;border-bottom:1px solid #f6d2de;">
+        <span style="color:#444444;font-size:13px;font-weight:500;">{$t['paymentMethod']}</span>
+        <span style="float:left;color:#1a1a1a;font-size:14px;">{$paymentLabel}</span>
       </td></tr>
-      <tr><td style="padding:16px 20px;border-bottom:1px solid #e5e7eb;">
-        <span style="color:#6b7280;font-size:13px;">{$t['phoneLabel']}</span>
-        <span style="float:left;color:#374151;font-size:14px;">{$phone}</span>
+      <tr><td style="padding:16px 20px;border-bottom:1px solid #f6d2de;">
+        <span style="color:#444444;font-size:13px;font-weight:500;">{$t['phoneLabel']}</span>
+        <span style="float:left;color:#1a1a1a;font-size:14px;">{$phone}</span>
       </td></tr>
       <tr><td style="padding:16px 20px;">
-        <span style="color:#6b7280;font-size:13px;">{$t['addressLabel']}</span>
-        <span style="float:left;color:#374151;font-size:14px;text-align:left;">{$fullAddress}</span>
+        <span style="color:#444444;font-size:13px;font-weight:500;">{$t['addressLabel']}</span>
+        <span style="float:left;color:#1a1a1a;font-size:14px;text-align:left;">{$fullAddress}</span>
       </td></tr>
     </table>
   </td></tr>
 
   <!-- Items -->
   <tr><td style="padding:0 40px 24px;">
-    <h3 style="margin:0 0 12px;color:#111827;font-size:16px;">{$t['orderDetails']}</h3>
-    <table width="100%" cellpadding="0" cellspacing="0" style="border-radius:8px;overflow:hidden;border:1px solid #e5e7eb;">
-      <thead><tr style="background:#f3f4f6;">
-        <th style="padding:10px 14px;text-align:right;color:#6b7280;font-size:13px;font-weight:600;">{$t['product']}</th>
-        <th style="padding:10px 14px;text-align:center;color:#6b7280;font-size:13px;font-weight:600;">{$t['qty']}</th>
-        <th style="padding:10px 14px;text-align:left;color:#6b7280;font-size:13px;font-weight:600;">{$t['price']}</th>
+    <h3 style="margin:0 0 12px;color:#1a1a1a;font-size:16px;font-family:'Cormorant Garamond',serif;font-weight:700;">{$t['orderDetails']}</h3>
+    <table width="100%" cellpadding="0" cellspacing="0" style="border-radius:12px;overflow:hidden;border:1px solid #f6d2de;">
+      <thead><tr style="background:#fdeaf0;">
+        <th style="padding:12px 14px;text-align:right;color:#d85c7c;font-size:13px;font-weight:700;">{$t['product']}</th>
+        <th style="padding:12px 14px;text-align:center;color:#d85c7c;font-size:13px;font-weight:700;">{$t['qty']}</th>
+        <th style="padding:12px 14px;text-align:left;color:#d85c7c;font-size:13px;font-weight:700;">{$t['price']}</th>
       </tr></thead>
       <tbody>{$itemsRows}</tbody>
     </table>
   </td></tr>
 
   <!-- Totals -->
-  <tr><td style="padding:0 40px 32px;">
-    <table width="100%" cellpadding="0" cellspacing="0">
+  <tr><td style="padding:0 40px 24px;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background:#fff7f9;padding:16px;border-radius:12px;border:1px solid #f6d2de;">
       <tr>
-        <td style="padding:6px 0;color:#6b7280;font-size:14px;">{$t['subtotal']}</td>
-        <td style="padding:6px 0;text-align:left;color:#374151;font-size:14px;">{$subtotal} {$currency}</td>
+        <td style="padding:6px 0;color:#444444;font-size:14px;">{$t['subtotal']}</td>
+        <td style="padding:6px 0;text-align:left;color:#1a1a1a;font-size:14px;font-weight:600;">{$subtotal} {$currency}</td>
       </tr>
       <tr>
-        <td style="padding:6px 0;color:#6b7280;font-size:14px;">{$t['delivery']}</td>
-        <td style="padding:6px 0;text-align:left;color:#374151;font-size:14px;">{$deliveryFee} {$currency}</td>
+        <td style="padding:6px 0;color:#444444;font-size:14px;">{$t['delivery']}</td>
+        <td style="padding:6px 0;text-align:left;color:#1a1a1a;font-size:14px;font-weight:600;">{$deliveryFee} {$currency}</td>
       </tr>
       <tr>
-        <td style="padding:12px 0 0;border-top:2px solid #e5e7eb;color:#111827;font-size:16px;font-weight:700;">{$t['total']}</td>
-        <td style="padding:12px 0 0;border-top:2px solid #e5e7eb;text-align:left;color:#1d4ed8;font-size:18px;font-weight:700;">{$grandTotal} {$currency}</td>
+        <td style="padding:12px 0 0;border-top:1.5px solid #f6d2de;color:#1a1a1a;font-size:16px;font-weight:700;">{$t['total']}</td>
+        <td style="padding:12px 0 0;border-top:1.5px solid #f6d2de;text-align:left;color:#d85c7c;font-size:20px;font-weight:800;">{$grandTotal} {$currency}</td>
       </tr>
     </table>
+  </td></tr>
+
+  <!-- Action Tracking Button -->
+  <tr><td style="padding:0 40px 32px;text-align:center;">
+    <a href="https://thebridie.com/track?code={$orderRef}" style="display:inline-block;background-color:#d85c7c;color:#ffffff;text-decoration:none;padding:14px 36px;border-radius:99px;font-size:14px;font-weight:700;box-shadow:0 6px 18px rgba(216,92,124,0.3);text-transform:uppercase;letter-spacing:0.05em;">
+      {$isAr ? 'تتبع مسار طلبك هنا' : 'Track Your Order Here'}
+    </a>
   </td></tr>
 
   {$notesBlock}
 
   <!-- Footer -->
-  <tr><td style="background:#f9fafb;border-top:1px solid #e5e7eb;padding:24px 40px;text-align:center;">
-    <p style="margin:0 0 8px;color:#374151;font-size:14px;font-weight:600;">{$t['footer']}</p>
-    <p style="margin:0;color:#9ca3af;font-size:13px;">{$t['contact']}: <a href="tel:+96560905080" style="color:#1d4ed8;text-decoration:none;">60905080</a></p>
+  <tr><td style="background:#fdeaf0;border-top:1px solid #f6d2de;padding:24px 40px;text-align:center;">
+    <p style="margin:0 0 8px;color:#d85c7c;font-size:14px;font-weight:700;">{$t['footer']}</p>
+    <p style="margin:0;color:#444444;font-size:13px;">{$t['contact']}: <a href="mailto:info@thebridie.com" style="color:#d85c7c;text-decoration:none;font-weight:600;">info@thebridie.com</a></p>
   </td></tr>
 
 </table>

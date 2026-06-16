@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useApp } from '../../context/AppContext';
 import { useLanguage } from '../../context/LanguageContext';
 import translations from '../../translations';
@@ -28,6 +29,7 @@ const TRYON_DESIGNS = [
 const Home = () => {
   const { products, addToCart, submitOrder, cart, cartTotal, siteContent } = useApp();
   const { t, lang } = useLanguage();
+  const navigate = useNavigate();
 
   // Find Tee products from backend state
   const trioProduct = products.find(p => p.id === 1);
@@ -40,6 +42,7 @@ const Home = () => {
   // States
   const [sparkles, setSparkles] = useState([]);
   const [addedStatus, setAddedStatus] = useState({});
+  const [placedOrderRef, setPlacedOrderRef] = useState('');
 
   // Squad Calculator
   const [calcBride, setCalcBride] = useState(1);
@@ -77,7 +80,6 @@ const Home = () => {
 
   // Tracker State
   const [trackInput, setTrackInput] = useState('');
-  const [showTrackSteps, setShowTrackSteps] = useState(false);
 
   // Checkout Form
   const [orderOk, setOrderOk] = useState(false);
@@ -395,7 +397,7 @@ const Home = () => {
     setOrderSubmitting(true);
     try {
       const notesWithDate = `${formData.notes} | Event Date: ${formData.eventDate}`;
-      await submitOrder({
+      const saved = await submitOrder({
         client: formData.name,
         phone: formData.phone,
         address: formData.address,
@@ -404,6 +406,7 @@ const Home = () => {
         governorate: selectedZone ? (lang === 'ar' ? selectedZone.ar : selectedZone.en) : '',
         deliveryFee: deliveryFee
       });
+      setPlacedOrderRef(saved?.ref || '');
       setOrderOk(true);
     } catch (err) {
       alert(lang === 'ar' ? 'حدث خطأ أثناء إرسال طلبك. يرجى المحاولة مرة أخرى.' : 'Something went wrong sending your order. Please try again.');
@@ -414,12 +417,11 @@ const Home = () => {
 
   const handleTrackSubmit = () => {
     if (!trackInput.trim()) return;
-    setShowTrackSteps(true);
+    navigate(`/track?code=${encodeURIComponent(trackInput.trim())}`);
   };
 
   const handleTrackDemo = () => {
-    setTrackInput('BR-1042');
-    setShowTrackSteps(true);
+    navigate('/track?code=BR-1042');
   };
 
   return (
@@ -1349,6 +1351,20 @@ const Home = () => {
             <div className="of-ok show">
               <div className="big">{t('landing.order.success')}</div>
               <p>{t('landing.order.successDesc')}</p>
+              {placedOrderRef && (
+                <div style={{ marginTop: '24px', textAlign: 'center' }}>
+                  <p style={{ fontSize: '15px', color: '#444' }}>
+                    Your tracking code: <strong style={{ color: 'var(--rose)', fontSize: '16px' }}>{placedOrderRef}</strong>
+                  </p>
+                  <Link 
+                    to={`/track?code=${placedOrderRef}`} 
+                    className="btn-bridie btn-primary-bridie animate-fade-in"
+                    style={{ display: 'inline-block', marginTop: '14px', textDecoration: 'none' }}
+                  >
+                    <i className="fas fa-truck-fast" style={{ marginRight: '8px' }}></i> Track Your Order
+                  </Link>
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -1383,34 +1399,6 @@ const Home = () => {
               <>Don't have a number yet? <a href="#track" onClick={(e) => { e.preventDefault(); handleTrackDemo(); }}>See an example</a></>
             )}
           </p>
-
-          <div className={`steps-track${showTrackSteps ? ' show' : ''}`}>
-            <div className="st-line done">
-              <div className="st-dot">✓</div>
-              <div className="st-t">{t('landing.track.steps.placed')}</div>
-              <div className="st-s">{t('landing.track.steps.placedDesc')}</div>
-            </div>
-            <div className="st-line done">
-              <div className="st-dot">✓</div>
-              <div className="st-t">{t('landing.track.steps.printing')}</div>
-              <div className="st-s">{t('landing.track.steps.printingDesc')}</div>
-            </div>
-            <div className="st-line current">
-              <div className="st-dot">●</div>
-              <div className="st-t">{t('landing.track.steps.ready')}</div>
-              <div className="st-s">{t('landing.track.steps.readyDesc')}</div>
-            </div>
-            <div className="st-line">
-              <div className="st-dot">○</div>
-              <div className="st-t">{t('landing.track.steps.out')}</div>
-              <div className="st-s">{t('landing.track.steps.outDesc')}</div>
-            </div>
-            <div className="st-line">
-              <div className="st-dot">○</div>
-              <div className="st-t">{t('landing.track.steps.delivered')}</div>
-              <div className="st-s">{t('landing.track.steps.deliveredDesc')}</div>
-            </div>
-          </div>
         </div>
       </section>
 

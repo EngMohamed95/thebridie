@@ -11,6 +11,7 @@ import Dashboard    from './pages/Dashboard';
 import Login        from './pages/Login';
 import MyAccount   from './pages/MyAccount';
 import Register    from './pages/Register';
+import TrackOrder  from './pages/TrackOrder';
 
 const ScrollToTop = () => {
   const { pathname, hash } = useLocation();
@@ -48,6 +49,7 @@ const AppContent = () => {
           <Route path="/dashboard"     element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           <Route path="/my-account"    element={<MyAccount />} />
           <Route path="/register"      element={<Register />} />
+          <Route path="/track"         element={<TrackOrder />} />
           <Route path="*"              element={<Navigate to="/" replace />} />
         </Routes>
       </main>

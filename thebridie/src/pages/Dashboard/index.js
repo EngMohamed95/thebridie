@@ -12,7 +12,7 @@ const categoryLabels = {
   bundles: { ar: 'الباقات الموفرة', en: 'Tee Bundles' },
   singles: { ar: 'التيشيرتات المنفردة', en: 'Single Tees' },
 };
-const orderStatusLabels  = { active: { ar: 'نشط', en: 'Active' }, pending: { ar: 'قيد المراجعة', en: 'Pending' }, inactive: { ar: 'متوقف', en: 'Inactive' }, shipped: { ar: 'تم الشحن', en: 'Shipped' }, cancelled: { ar: 'ملغي', en: 'Cancelled' } };
+const orderStatusLabels  = { pending: { ar: 'تم استلام الطلب', en: 'Order Placed' }, printing: { ar: 'جاري التجهيز والطباعة', en: 'Printing & Prep' }, ready: { ar: 'جاهز للتوصيل', en: 'Ready for Courier' }, shipped: { ar: 'خارج للتوصيل', en: 'Out for Delivery' }, delivered: { ar: 'تم التسليم', en: 'Delivered' }, cancelled: { ar: 'ملغي', en: 'Cancelled' } };
 const productStatusLabels= { active: { ar: 'نشط', en: 'Active' }, pending: { ar: 'قيد المراجعة', en: 'Pending' }, inactive: { ar: 'متوقف', en: 'Inactive' } };
 const roleLabels         = { admin: { ar: 'مدير', en: 'Admin' }, editor: { ar: 'محرر', en: 'Editor' }, viewer: { ar: 'مشاهد', en: 'Viewer' }, customer: { ar: 'عميل', en: 'Customer' } };
 const userStatusLabels   = { active: { ar: 'نشط', en: 'Active' }, suspended: { ar: 'موقوف', en: 'Suspended' }, pending: { ar: 'قيد المراجعة', en: 'Pending' }, locked: { ar: 'مقفل', en: 'Locked' } };
@@ -949,7 +949,7 @@ const Dashboard = () => {
     }));
 
     /* ── Orders by status ── */
-    const statusColors = { active:'#065089', pending:'#f59e0b', shipped:'#16a34a', cancelled:'#ef4444', inactive:'#94a3b8' };
+    const statusColors = { pending:'#f59e0b', printing:'#d946ef', ready:'#0284c7', shipped:'#0d9488', delivered:'#16a34a', cancelled:'#ef4444' };
     const statusSlices = Object.entries(orderStatusLabels).map(([k, labelObj]) => ({
       label: labelObj?.ar || k, color: statusColors[k] || '#94a3b8',
       v: inRange.filter(o => o.status === k).length,
