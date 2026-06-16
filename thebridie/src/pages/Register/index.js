@@ -6,7 +6,7 @@ import Seo from '../../components/Seo';
 import '../Login/index.css';
 import './index.css';
 
-const LOGO_URL = '/logos/thebridie-logo.png';
+const LOGO_URL = '/logos/thebridie-logo.png?v=2';
 
 const Register = () => {
   const [form, setForm]       = useState({ name: '', username: '', phone: '', email: '', password: '', confirm: '' });
@@ -74,13 +74,13 @@ const Register = () => {
           {/* Logo */}
           <div className="login-logo">
             {!logoFailed ? (
-              <img src={LOGO_URL} alt="ذا برايدي" className="login-logo-img" onError={() => setLogoFailed(true)} />
+              <img src={LOGO_URL} alt="The Bridie" className="login-logo-img" onError={() => setLogoFailed(true)} />
             ) : (
-              <span className="login-logo-fallback-text" style={{ fontWeight: '800', fontSize: '28px', color: '#D85C7C', fontFamily: 'Tajawal, sans-serif', marginInlineEnd: '15px' }}>ذا برايدي</span>
+              <span className="login-logo-fallback-text" style={{ fontWeight: '800', fontSize: '28px', color: '#D85C7C', fontFamily: 'Jost, sans-serif', marginInlineEnd: '15px' }}>The Bridie</span>
             )}
             <div>
-              <div className="login-logo-name">ذا برايدي</div>
-              <div className="login-logo-sub">The Bridie</div>
+              <div className="login-logo-name">The Bridie</div>
+              <div className="login-logo-sub">Bride & Bridesmaid Tees</div>
             </div>
           </div>
 

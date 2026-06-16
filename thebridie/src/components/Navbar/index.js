@@ -4,7 +4,7 @@ import { useApp } from '../../context/AppContext';
 import { useLanguage } from '../../context/LanguageContext';
 import './index.css';
 
-const LOGO_URL = '/logos/thebridie-logo.png';
+const LOGO_URL = '/logos/thebridie-logo.png?v=2';
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
