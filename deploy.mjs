@@ -14,7 +14,7 @@ const config = {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const LOCAL_BUILD = path.join(__dirname, 'jawhara', 'build');
+const LOCAL_BUILD = path.join(__dirname, 'thebridie', 'build');
 const REMOTE_DIR  = '/public_html';
 
 async function deploy() {

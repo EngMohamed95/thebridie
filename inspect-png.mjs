@@ -16,7 +16,7 @@ function getPngDimensions(filePath) {
   }
 }
 
-const dir = 'jawhara/public';
+const dir = 'thebridie/public';
 console.log('PNG Image dimensions:');
 const files = [
   'favicon.ico',

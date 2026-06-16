@@ -21,7 +21,7 @@ async function downloadLive() {
     await client.access(config);
     console.log('Connected to old FTP server!');
     
-    const localDir = path.join(__dirname, 'jawhara', 'public', 'api');
+    const localDir = path.join(__dirname, 'thebridie', 'public', 'api');
     const localPath = path.join(localDir, 'data.json');
     const backupPath = path.join(localDir, 'data.json.bak');
     

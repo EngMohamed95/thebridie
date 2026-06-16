@@ -18,21 +18,21 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
-          cache-dependency-path: './jawhara/package-lock.json'
+          cache-dependency-path: './thebridie/package-lock.json'
 
       - name: Install Dependencies
         run: |
-          cd jawhara
+          cd thebridie
           npm install
 
       - name: Build React App
         run: |
-          cd jawhara
+          cd thebridie
           npm run build
 
       - name: Deploy to cPanel
         run: |
-          cd jawhara
+          cd thebridie
           node scripts/deploy.js
         env:
           FTP_HOST: ${{ secrets.FTP_HOST }}

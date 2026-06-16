@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 
-const dbPath = './jawhara/db.json';
-const dataPath = './jawhara/public/api/data.json';
+const dbPath = './thebridie/db.json';
+const dataPath = './thebridie/public/api/data.json';
 
 const db = JSON.parse(fs.readFileSync(dbPath, 'utf8'));
 
