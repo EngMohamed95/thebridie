@@ -100,11 +100,11 @@ $governorate = htmlspecialchars($body['governorate'] ?? '', ENT_QUOTES, 'UTF-8')
 $block       = htmlspecialchars($body['block']       ?? '', ENT_QUOTES, 'UTF-8');
 $notes       = htmlspecialchars($body['notes']       ?? '', ENT_QUOTES, 'UTF-8');
 $payment     = $body['payment'] ?? 'cash';
-$deliveryFee = number_format((float)($body['deliveryFee'] ?? 0), 3);
-$grandTotal  = number_format((float)($body['grandTotal']  ?? $body['total'] ?? 0), 3);
-$subtotal    = number_format((float)($body['total']       ?? 0), 3);
+$deliveryFee = number_format((float)($body['deliveryFee'] ?? 0), 2);
+$grandTotal  = number_format((float)($body['grandTotal']  ?? $body['total'] ?? 0), 2);
+$subtotal    = number_format((float)($body['total']       ?? 0), 2);
 $items       = $body['items'] ?? [];
-$currency    = $isAr ? 'د.ك' : 'KWD';
+$currency    = $isAr ? 'ج.م' : 'EGP';
 
 // ── النصوص حسب اللغة ────────────────────────────────────
 $t = $isAr ? [
@@ -134,6 +134,8 @@ $t = $isAr ? [
         'myfatoorah' => 'MyFatoorah',
         'tap'        => 'Tap',
         'benefitpay' => 'Benefit Pay',
+        'applepay'   => 'أبل باي',
+        'instapay'   => 'إنستاباي',
     ],
 ] : [
     'subject'      => "Order Confirmation {$orderRef} — The Bridie",
@@ -162,6 +164,8 @@ $t = $isAr ? [
         'myfatoorah' => 'MyFatoorah',
         'tap'        => 'Tap',
         'benefitpay' => 'Benefit Pay',
+        'applepay'   => 'Apple Pay',
+        'instapay'   => 'InstaPay',
     ],
 ];
 
@@ -179,7 +183,7 @@ foreach ($items as $item) {
     }
     $qty       = (int)($item['qty'] ?? 1);
     $price     = (float)($item['price'] ?? 0);
-    $lineTotal = number_format($price * $qty, 3);
+    $lineTotal = number_format($price * $qty, 2);
     $itemsRows .= "
     <tr>
       <td style='padding:10px 14px;border-bottom:1px solid #f0f0f0;color:#374151;'>{$name}</td>

@@ -423,9 +423,9 @@ export default function ProductForm({ mode, productId, onBack }) {
               </select>
             </div>
             <div className="pf-field">
-              <label className="pf-label">{ar('السعر (د.ك) *', 'Price (KD) *')}</label>
-              <input className="form-input" type="number" step="0.001" min="0" name="price"
-                value={form.price} onChange={onInput} dir="ltr" placeholder="0.000" required />
+              <label className="pf-label">{ar('السعر (ج.م) *', 'Price (EGP) *')}</label>
+              <input className="form-input" type="number" step="1" min="0" name="price"
+                value={form.price} onChange={onInput} dir="ltr" placeholder="0.00" required />
               <span className="pf-field-hint">{ar('يُستخدم إن لم تكن هناك خيارات', 'Used if no options')}</span>
             </div>
             <div className="pf-field">
@@ -526,7 +526,7 @@ export default function ProductForm({ mode, productId, onBack }) {
                   <span className="pf-variant-name-preview">
                     {v.nameAr || v.nameEn || ar('خيار جديد', 'New Option')}
                   </span>
-                  {v.price && <span style={{ fontSize: '12px', color: 'var(--primary)', fontWeight: 700 }}>{Number(v.price).toFixed(3)} د.ك</span>}
+                  {v.price && <span style={{ fontSize: '12px', color: 'var(--primary)', fontWeight: 700 }}>{Number(v.price).toFixed(2)} ج.م</span>}
                   <div className="pf-variant-controls">
                     <button type="button" className="pf-variant-ctrl-btn"
                       onClick={() => moveVariant(vi, -1)} disabled={vi === 0}>
@@ -578,10 +578,10 @@ export default function ProductForm({ mode, productId, onBack }) {
                     </div>
                     <div className="pf-grid-3">
                       <div className="pf-field">
-                        <label className="pf-label pf-label-sm">💰 {ar('السعر (د.ك)', 'Price (KD)')}</label>
-                        <input className="form-input" type="number" step="0.001" min="0" dir="ltr"
+                        <label className="pf-label pf-label-sm">💰 {ar('السعر (ج.م)', 'Price (EGP)')}</label>
+                        <input className="form-input" type="number" step="1" min="0" dir="ltr"
                           value={v.price} onChange={e => setVariant(vi, 'price', e.target.value)}
-                          placeholder="1.500" />
+                          placeholder="100.00" />
                       </div>
                       <div className="pf-field">
                         <label className="pf-label pf-label-sm">📦 {ar('المخزون', 'Stock')}</label>

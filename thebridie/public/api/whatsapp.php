@@ -31,6 +31,8 @@ $paymentLabels = [
     'myfatoorah' => 'MyFatoorah',
     'tap'        => 'Tap',
     'benefitpay' => 'Benefit Pay',
+    'applepay'   => 'أبل باي',
+    'instapay'   => 'إنستاباي',
 ];
 
 $ref     = $order['ref']         ?? '';
@@ -53,7 +55,7 @@ $msg .= "العميل: {$client}\n";
 $msg .= "الهاتف: {$phone}\n";
 $msg .= "المنطقة: {$gov}" . ($block ? " - قطعة {$block}" : "") . "\n";
 $msg .= "الدفع: {$payment}\n";
-$msg .= "الاجمالي: {$total} د.ك\n";
+$msg .= "الاجمالي: {$total} ج.م\n";
 if ($itemLines) {
     $msg .= "\nالمنتجات:\n{$itemLines}";
 }

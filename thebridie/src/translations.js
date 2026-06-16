@@ -108,7 +108,7 @@ const t = {
     empty:   { ar: 'لا توجد منتجات في هذه الفئة', en: 'No products in this category' },
     loading: { ar: 'جاري تحميل المنتجات...', en: 'Loading products...' },
     error:   { ar: 'تعذر الاتصال بالخادم', en: 'Could not connect to server' },
-    currency:{ ar: 'د.ك', en: 'KWD' },
+    currency:{ ar: 'ج.م', en: 'EGP' },
     cats: {
       bundles:  { ar: 'الباقات الموفرة', en: 'Tee Bundles' },
       singles:  { ar: 'التيشيرتات المنفردة', en: 'Single Tees' },
@@ -223,6 +223,8 @@ const t = {
     stcpay:       { ar: 'STC Pay',               en: 'STC Pay' },
     zaincash:     { ar: 'Zain Cash',             en: 'Zain Cash' },
     benefitpay:   { ar: 'Benefit Pay',           en: 'Benefit Pay' },
+    applepay:     { ar: 'أبل باي',               en: 'Apple Pay' },
+    instapay:     { ar: 'إنستاباي',             en: 'InstaPay' },
     confirm:      { ar: 'تأكيد وإرسال الطلب',   en: 'Confirm & Send Order' },
     sending:      { ar: 'جاري إرسال الطلب...',  en: 'Sending Order...' },
     yourOrder:    { ar: 'ملخص طلبك',             en: 'Your Order' },
@@ -232,14 +234,13 @@ const t = {
     stepConfirm:  { ar: 'التأكيد',               en: 'Confirmation' },
   },
 
-  // ── Kuwait Delivery Zones ─────────────────────────────
-  kuwaitZones: [
-    { id: 'capital',  ar: 'محافظة العاصمة',     en: 'Capital Governorate',       fee: 0.750 },
-    { id: 'hawalli',  ar: 'محافظة حولي',         en: 'Hawalli Governorate',       fee: 0.750 },
-    { id: 'farwaniya',ar: 'محافظة الفروانية',    en: 'Farwaniya Governorate',     fee: 0.750 },
-    { id: 'mubarak',  ar: 'محافظة مبارك الكبير', en: 'Mubarak Al-Kabeer Gov.',   fee: 0.750 },
-    { id: 'ahmadi',   ar: 'محافظة الأحمدي',      en: 'Ahmadi Governorate',        fee: 1.000 },
-    { id: 'jahra',    ar: 'محافظة الجهراء',      en: 'Jahra Governorate',         fee: 1.000 },
+  // ── Egypt Delivery Zones ─────────────────────────────
+  egyptZones: [
+    { id: 'cairo_giza',  ar: 'القاهرة والجيزة', en: 'Cairo & Giza',            fee: 50.00 },
+    { id: 'alexandria',  ar: 'الإسكندرية',      en: 'Alexandria',              fee: 60.00 },
+    { id: 'delta',       ar: 'الدلتا والقناة',  en: 'Delta & Canal Cities',    fee: 70.00 },
+    { id: 'upper_egypt', ar: 'الصعيد',          en: 'Upper Egypt',             fee: 85.00 },
+    { id: 'frontier',    ar: 'المحافظات الحدودية', en: 'Frontier Governorates', fee: 110.00 },
   ],
 
   // ── Order Success ────────────────────────────────────
@@ -289,7 +290,7 @@ const t = {
     edit:      { ar: 'تعديل',            en: 'Edit' },
     add:       { ar: 'إضافة',            en: 'Add' },
     search:    { ar: 'بحث',              en: 'Search' },
-    currency:  { ar: 'د.ك',              en: 'KWD' },
+    currency:  { ar: 'ج.م',              en: 'EGP' },
   },
 
   // ── Landing Page (T-Shirts Shop) ──────────────────────

@@ -26,7 +26,7 @@ const TRYON_DESIGNS = [
 ];
 
 const Home = () => {
-  const { products, addToCart, submitOrder, cart, cartTotal } = useApp();
+  const { products, addToCart, submitOrder, cart, cartTotal, siteContent } = useApp();
   const { t, lang } = useLanguage();
 
   // Find Tee products from backend state
@@ -87,16 +87,28 @@ const Home = () => {
     phone: '',
     address: '',
     eventDate: '',
-    payment: 'Cash on delivery',
+    payment: 'cash',
+    governorate: '',
     notes: ''
   });
 
   // Calculate calculator price
-  const bridePrice = brideProduct?.price || 7.5;
-  const bridesmaidPrice = bridesmaidProduct?.price || 5.0;
+  const bridePrice = brideProduct?.price || 350.0;
+  const bridesmaidPrice = bridesmaidProduct?.price || 250.0;
   const calculatedTotal = calcBride * bridePrice + calcMaid * bridesmaidPrice;
 
-  const currency = t('products.currency') || 'د.ك';
+  const currency = t('products.currency') || 'ج.م';
+
+  const shippingZones = siteContent?.shippingZones || translations.egyptZones.map(z => ({ ...z, enabled: true }));
+  const selectedZone = shippingZones.find(z => z.id === formData.governorate);
+  const deliveryFee = selectedZone ? parseFloat(selectedZone.fee) : 0;
+
+  const paymentSettings = siteContent?.paymentSettings || {
+    cash: { enabled: true },
+    transfer: { enabled: true, bankName: '', iban: '' },
+    instapay: { enabled: true, ipa: 'merchant@instapay', phone: '01000000000' },
+    applepay: { enabled: true }
+  };
 
   const getCalcBreakdownText = () => {
     const totalTees = calcBride + calcMaid;
@@ -388,7 +400,9 @@ const Home = () => {
         phone: formData.phone,
         address: formData.address,
         notes: notesWithDate,
-        payment: formData.payment === 'Cash on delivery' ? 'cash' : 'transfer'
+        payment: formData.payment,
+        governorate: selectedZone ? (lang === 'ar' ? selectedZone.ar : selectedZone.en) : '',
+        deliveryFee: deliveryFee
       });
       setOrderOk(true);
     } catch (err) {
@@ -528,7 +542,7 @@ const Home = () => {
               <h3>{t('landing.bundles.trio')}</h3>
               <p className="desc">{t('landing.bundles.trioDesc')}</p>
               <div className="price">
-                {trioProduct ? (trioProduct.price).toFixed(3) : '00.000'} {currency}
+                {trioProduct ? (trioProduct.price).toFixed(2) : '00.00'} {currency}
               </div>
               <button
                 type="button"
@@ -556,7 +570,7 @@ const Home = () => {
               <h3>{t('landing.bundles.squad')}</h3>
               <p className="desc">{t('landing.bundles.squadDesc')}</p>
               <div className="price">
-                {squadProduct ? (squadProduct.price).toFixed(3) : '00.000'} {currency}
+                {squadProduct ? (squadProduct.price).toFixed(2) : '00.00'} {currency}
               </div>
               <button
                 type="button"
@@ -583,7 +597,7 @@ const Home = () => {
               <h3>{t('landing.bundles.buildOwn')}</h3>
               <p className="desc">{t('landing.bundles.buildOwnDesc')}</p>
               <div className="price">
-                {lang === 'ar' ? 'من' : 'From'} {brideProduct ? (brideProduct.price).toFixed(3) : '0.000'} {currency}
+                {lang === 'ar' ? 'من' : 'From'} {brideProduct ? (brideProduct.price).toFixed(2) : '0.00'} {currency}
               </div>
               <a href="#customize" className="btn-bridie btn-primary-bridie">{t('landing.bundles.customize')}</a>
             </div>
@@ -626,7 +640,7 @@ const Home = () => {
             </div>
           </div>
           <div className="calc-out">
-            <div className="tot">{calculatedTotal.toFixed(3)} {currency}</div>
+            <div className="tot">{calculatedTotal.toFixed(2)} {currency}</div>
             <div className="brk">{getCalcBreakdownText()}</div>
           </div>
           <p className="calc-note">
@@ -683,7 +697,7 @@ const Home = () => {
             </div>
             <div className="body">
               <h4>{t('landing.singles.bride')}</h4>
-              <div className="price">{brideProduct ? (brideProduct.price).toFixed(3) : '00.000'} {currency}</div>
+              <div className="price">{brideProduct ? (brideProduct.price).toFixed(2) : '00.00'} {currency}</div>
               <button
                 type="button"
                 className="btn-bridie btn-primary-bridie"
@@ -707,7 +721,7 @@ const Home = () => {
             </div>
             <div className="body">
               <h4>{t('landing.singles.bridesmaid')}</h4>
-              <div className="price">{bridesmaidProduct ? (bridesmaidProduct.price).toFixed(3) : '00.000'} {currency}</div>
+              <div className="price">{bridesmaidProduct ? (bridesmaidProduct.price).toFixed(2) : '00.00'} {currency}</div>
               <button
                 type="button"
                 className="btn-bridie btn-primary-bridie"
@@ -731,7 +745,7 @@ const Home = () => {
             </div>
             <div className="body">
               <h4>{t('landing.singles.mother')}</h4>
-              <div className="price">{motherProduct ? (motherProduct.price).toFixed(3) : '00.000'} {currency}</div>
+              <div className="price">{motherProduct ? (motherProduct.price).toFixed(2) : '00.00'} {currency}</div>
               <button
                 type="button"
                 className="btn-bridie btn-primary-bridie"
@@ -1102,12 +1116,22 @@ const Home = () => {
                     {cart.map(item => (
                       <div key={item._cartKey || item.id} className="os-row">
                         <span>{item.name} <span className="q">× {item.qty}</span></span>
-                        <span>{(item.price * item.qty).toFixed(3)} {currency}</span>
+                        <span>{(item.price * item.qty).toFixed(2)} {currency}</span>
                       </div>
                     ))}
-                    <div className="os-total">
+                    <div className="os-row" style={{ borderTop: '1px dashed #eed6dc', paddingTop: '8px', marginTop: '8px', fontSize: '14px', color: '#666' }}>
+                      <span>{t('checkout.subtotal')}</span>
+                      <span>{cartTotal.toFixed(2)} {currency}</span>
+                    </div>
+                    {deliveryFee > 0 && (
+                      <div className="os-row" style={{ fontSize: '14px', color: '#666' }}>
+                        <span>{t('checkout.deliveryFee')}</span>
+                        <span>{deliveryFee.toFixed(2)} {currency}</span>
+                      </div>
+                    )}
+                    <div className="os-total" style={{ borderTop: '1px solid #eed6dc', paddingTop: '8px' }}>
                       <span className="l">{t('cart.total')}</span>
-                      <span className="v">{cartTotal.toFixed(3)} {currency}</span>
+                      <span className="v">{(cartTotal + deliveryFee).toFixed(2)} {currency}</span>
                     </div>
                   </>
                 )}
@@ -1139,13 +1163,39 @@ const Home = () => {
                     onChange={handleFormChange}
                   />
                 </div>
+                <div className="of-field">
+                  <label htmlFor="ofGov">{t('checkout.governorate')}</label>
+                  <select
+                    id="ofGov"
+                    name="governorate"
+                    required
+                    value={formData.governorate || ''}
+                    onChange={handleFormChange}
+                    style={{
+                      width: '100%',
+                      padding: '12px 16px',
+                      borderRadius: '8px',
+                      border: '1.5px solid #eed6dc',
+                      fontSize: '15px',
+                      outline: 'none',
+                      background: '#fff'
+                    }}
+                  >
+                    <option value="">{t('checkout.selectGov')}</option>
+                    {shippingZones.filter(z => z.enabled).map(zone => (
+                      <option key={zone.id} value={zone.id}>
+                        {lang === 'ar' ? zone.ar : zone.en} (+{(zone.fee).toFixed(2)} {currency})
+                      </option>
+                    ))}
+                  </select>
+                </div>
                 <div className="of-field full">
                   <label htmlFor="ofAddr">{t('checkout.address')}</label>
                   <textarea
                     id="ofAddr"
                     name="address"
                     required
-                    placeholder={lang === 'ar' ? 'الشارع، البناية، المنطقة، المدينة، المحافظة' : 'Street, building, area, city, governorate'}
+                    placeholder={lang === 'ar' ? 'الشارع، البناية، المنطقة، المدينة' : 'Street, building, area, city'}
                     value={formData.address}
                     onChange={handleFormChange}
                   />
@@ -1165,34 +1215,109 @@ const Home = () => {
               <div className="of-section-label" style={{ marginTop: '8px' }}>
                 <span className="n">3</span>{t('landing.order.step3')}
               </div>
-              <div className="pay-opts">
-                <label className={`pay-opt${formData.payment === 'Cash on delivery' ? ' sel' : ''}`}>
-                  <input
-                    type="radio"
-                    name="payment"
-                    value="Cash on delivery"
-                    checked={formData.payment === 'Cash on delivery'}
-                    onChange={handleFormChange}
-                  />
-                  <span>
-                    <span className="po-t">{t('checkout.cash')}</span>
-                    <span className="po-s">{lang === 'ar' ? 'ادفعي نقداً عند استلام شحنتكِ.' : 'Pay when your set arrives.'}</span>
-                  </span>
-                </label>
-                <label className={`pay-opt${formData.payment === 'Instapay / bank transfer' ? ' sel' : ''}`}>
-                  <input
-                    type="radio"
-                    name="payment"
-                    value="Instapay / bank transfer"
-                    checked={formData.payment === 'Instapay / bank transfer'}
-                    onChange={handleFormChange}
-                  />
-                  <span>
-                    <span className="po-t">{t('checkout.transfer')}</span>
-                    <span className="po-s">{lang === 'ar' ? 'سنرسل لكِ بيانات التحويل البنكي أو إنستاباي لتأكيد طلبكِ.' : "We'll send transfer details to confirm your order."}</span>
-                  </span>
-                </label>
+              <div className="pay-opts" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                {paymentSettings.cash?.enabled !== false && (
+                  <label className={`pay-opt${formData.payment === 'cash' ? ' sel' : ''}`}>
+                    <input
+                      type="radio"
+                      name="payment"
+                      value="cash"
+                      checked={formData.payment === 'cash'}
+                      onChange={handleFormChange}
+                    />
+                    <span>
+                      <span className="po-t">{t('checkout.cash')}</span>
+                      <span className="po-s">{lang === 'ar' ? 'الدفع نقداً عند الاستلام.' : 'Pay cash when your order is delivered.'}</span>
+                    </span>
+                  </label>
+                )}
+                {paymentSettings.instapay?.enabled !== false && (
+                  <label className={`pay-opt${formData.payment === 'instapay' ? ' sel' : ''}`}>
+                    <input
+                      type="radio"
+                      name="payment"
+                      value="instapay"
+                      checked={formData.payment === 'instapay'}
+                      onChange={handleFormChange}
+                    />
+                    <span>
+                      <span className="po-t">{t('checkout.instapay')}</span>
+                      <span className="po-s">{lang === 'ar' ? 'التحويل الفوري عبر تطبيق إنستاباي.' : 'Transfer instantly using InstaPay app.'}</span>
+                    </span>
+                  </label>
+                )}
+                {paymentSettings.transfer?.enabled !== false && (
+                  <label className={`pay-opt${formData.payment === 'transfer' ? ' sel' : ''}`}>
+                    <input
+                      type="radio"
+                      name="payment"
+                      value="transfer"
+                      checked={formData.payment === 'transfer'}
+                      onChange={handleFormChange}
+                    />
+                    <span>
+                      <span className="po-t">{t('checkout.transfer')}</span>
+                      <span className="po-s">{lang === 'ar' ? 'تحويل بنكي مباشر إلى حسابنا.' : 'Direct bank transfer to our account.'}</span>
+                    </span>
+                  </label>
+                )}
+                {paymentSettings.applepay?.enabled !== false && (
+                  <label className={`pay-opt${formData.payment === 'applepay' ? ' sel' : ''}`}>
+                    <input
+                      type="radio"
+                      name="payment"
+                      value="applepay"
+                      checked={formData.payment === 'applepay'}
+                      onChange={handleFormChange}
+                    />
+                    <span>
+                      <span className="po-t">{t('checkout.applepay')}</span>
+                      <span className="po-s">{lang === 'ar' ? 'ادفع بأمان وسهولة باستخدام Apple Pay.' : 'Pay securely using Apple Pay.'}</span>
+                    </span>
+                  </label>
+                )}
               </div>
+
+              {formData.payment === 'instapay' && (
+                <div className="pay-details-instruction" style={{ marginTop: '12px', padding: '12px 16px', background: 'rgba(253, 234, 240, 0.4)', borderRadius: '8px', fontSize: '14px', border: '1px solid #eed6dc' }}>
+                  <strong style={{ color: 'var(--primary)', display: 'block', marginBottom: '6px' }}>{lang === 'ar' ? 'بيانات الدفع عبر إنستاباي:' : 'InstaPay Payment Details:'}</strong>
+                  <div>
+                    {lang === 'ar' ? 'عنوان الدفع (IPA):' : 'InstaPay Address (IPA):'} <code style={{ background: '#fff', border: '1px solid #eed6dc', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>{paymentSettings.instapay?.ipa || 'merchant@instapay'}</code>
+                  </div>
+                  {paymentSettings.instapay?.phone && (
+                    <div style={{ marginTop: '6px' }}>
+                      {lang === 'ar' ? 'رقم الهاتف المرتبط:' : 'Linked Phone:'} <strong>{paymentSettings.instapay.phone}</strong>
+                    </div>
+                  )}
+                  <p style={{ fontSize: '12px', color: '#666', marginTop: '8px', marginBottom: 0 }}>
+                    {lang === 'ar' ? '* يرجى إرسال لقطة شاشة لإيصال التحويل لتأكيد الطلب.' : '* Please send a screenshot of the transfer receipt to confirm your order.'}
+                  </p>
+                </div>
+              )}
+
+              {formData.payment === 'transfer' && (
+                <div className="pay-details-instruction" style={{ marginTop: '12px', padding: '12px 16px', background: 'rgba(253, 234, 240, 0.4)', borderRadius: '8px', fontSize: '14px', border: '1px solid #eed6dc' }}>
+                  <strong style={{ color: 'var(--primary)', display: 'block', marginBottom: '6px' }}>{lang === 'ar' ? 'تفاصيل التحويل البنكي:' : 'Bank Transfer Details:'}</strong>
+                  {paymentSettings.transfer?.bankName && (
+                    <div>
+                      {lang === 'ar' ? 'اسم البنك:' : 'Bank Name:'} <strong>{paymentSettings.transfer.bankName}</strong>
+                    </div>
+                  )}
+                  {paymentSettings.transfer?.iban && (
+                    <div style={{ marginTop: '6px' }}>
+                      {lang === 'ar' ? 'رقم الآيبان (IBAN):' : 'IBAN:'} <code style={{ background: '#fff', border: '1px solid #eed6dc', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>{paymentSettings.transfer.iban}</code>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {formData.payment === 'applepay' && (
+                <div className="pay-details-instruction" style={{ marginTop: '12px', padding: '12px 16px', background: 'rgba(253, 234, 240, 0.4)', borderRadius: '8px', fontSize: '14px', border: '1px solid #eed6dc' }}>
+                  <p style={{ margin: 0, color: '#666' }}>
+                    {lang === 'ar' ? 'سيتواصل معك فريقنا عبر الواتساب لإرسال رابط دفع Apple Pay لتأكيد طلبكِ.' : 'Our team will contact you via WhatsApp to send an Apple Pay payment link to confirm your order.'}
+                  </p>
+                </div>
+              )}
 
               <div className="of-field full" style={{ marginTop: '16px' }}>
                 <label htmlFor="ofNotes">

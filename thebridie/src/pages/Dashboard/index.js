@@ -56,7 +56,7 @@ const DASH_T = {
   'products.nameEn':   { ar: 'الاسم إنجليزي',  en: 'Name (EN)' },
   'products.sku':      { ar: 'الرمز SKU',       en: 'SKU' },
   'products.category': { ar: 'الفئة',           en: 'Category' },
-  'products.price':    { ar: 'السعر (د.ك)',     en: 'Price (KD)' },
+  'products.price':    { ar: 'السعر (ج.م)',     en: 'Price (EGP)' },
   'products.stock':    { ar: 'المخزون',         en: 'Stock' },
   'products.status':   { ar: 'الحالة',          en: 'Status' },
   'products.actions':  { ar: 'إجراءات',         en: 'Actions' },
@@ -331,6 +331,7 @@ const Dashboard = () => {
   } = useApp();
 
   const { lang } = useLanguage();
+  const currencySymbol = lang === 'en' ? 'EGP' : 'ج.م';
   const dt = (key) => DASH_T[key]?.[lang] ?? DASH_T[key]?.ar ?? key;
 
   const myRole = auth?.role || 'viewer';
@@ -660,7 +661,7 @@ const Dashboard = () => {
     if (!shippingZones && siteContent?.shippingZones)
       setShippingZones(JSON.parse(JSON.stringify(siteContent.shippingZones)));
     else if (!shippingZones)
-      setShippingZones(translations.kuwaitZones.map(z => ({ ...z, enabled: true })));
+      setShippingZones(translations.egyptZones.map(z => ({ ...z, enabled: true })));
     if (!shipCompanies)
       setShipCompanies(siteContent?.shipCompanies ? JSON.parse(JSON.stringify(siteContent.shipCompanies)) : { ...defaultShipCompanies });
     setView('shipping');
@@ -685,7 +686,7 @@ const Dashboard = () => {
 
   const openPaymentsTab = () => {
     if (!paySettings) {
-      const defaults = { cash: { enabled: true }, transfer: { enabled: true, bankName: '', iban: '' }, knet: { enabled: true, apiKey: '', testMode: true }, myfatoorah: { enabled: false, apiKey: '', testMode: true }, tap: { enabled: false, apiKey: '', testMode: true }, stcpay: { enabled: false }, zaincash: { enabled: false }, benefitpay: { enabled: false } };
+      const defaults = { cash: { enabled: true }, transfer: { enabled: true, bankName: '', iban: '' }, knet: { enabled: false, apiKey: '', testMode: true }, myfatoorah: { enabled: false, apiKey: '', testMode: true }, tap: { enabled: false, apiKey: '', testMode: true }, stcpay: { enabled: false }, zaincash: { enabled: false }, benefitpay: { enabled: false }, applepay: { enabled: false }, instapay: { enabled: true, ipa: '', phone: '' } };
       setPaySettings(siteContent?.paymentSettings ? JSON.parse(JSON.stringify(siteContent.paymentSettings)) : defaults);
     }
     setView('payments');
@@ -712,8 +713,8 @@ const Dashboard = () => {
       <tr>
         <td>${i.name}</td>
         <td style="text-align:center">${i.qty}</td>
-        <td style="text-align:center">${Number(i.price).toFixed(3)}</td>
-        <td style="text-align:center">${(i.price * i.qty).toFixed(3)}</td>
+        <td style="text-align:center">${Number(i.price).toFixed(2)}</td>
+        <td style="text-align:center">${(i.price * i.qty).toFixed(2)}</td>
       </tr>`).join('');
 
     const html = `<!DOCTYPE html>
@@ -790,8 +791,8 @@ const Dashboard = () => {
 
 <table class="inv-totals">
   <tbody>
-    ${order.deliveryFee ? `<tr><td>رسوم التوصيل</td><td style="text-align:center">${Number(order.deliveryFee).toFixed(3)} د.ك</td></tr>` : ''}
-    <tr class="grand"><td>الإجمالي الكلي</td><td style="text-align:center">${Number(order.grandTotal || order.total).toFixed(3)} د.ك</td></tr>
+    ${order.deliveryFee ? `<tr><td>رسوم التوصيل</td><td style="text-align:center">${Number(order.deliveryFee).toFixed(2)} ج.م</td></tr>` : ''}
+    <tr class="grand"><td>الإجمالي الكلي</td><td style="text-align:center">${Number(order.grandTotal || order.total).toFixed(2)} ج.م</td></tr>
   </tbody>
 </table>
 
@@ -813,7 +814,7 @@ const Dashboard = () => {
   const activeCount    = products.filter(p => p.status === 'active').length;
   const totalStock     = products.reduce((s, p) => s + (p.stock || 0), 0).toLocaleString();
   const pendingOrders  = orders.filter(o => o.status === 'pending').length;
-  const totalRevenue   = orders.reduce((s, o) => s + parseFloat(o.grandTotal || o.total || 0), 0).toFixed(3);
+  const totalRevenue   = orders.reduce((s, o) => s + parseFloat(o.grandTotal || o.total || 0), 0).toFixed(2);
 
   /* ── Search ── */
   const [dashSearch,    setDashSearch]    = useState('');
@@ -1110,7 +1111,7 @@ const Dashboard = () => {
                   { icon: 'fa-warehouse',    num: totalStock,       label: lang === 'en' ? 'Total Stock' : 'إجمالي المخزون',   cls: 'dash-stat-orange',  color: 'var(--secondary-dark)' },
                   { icon: 'fa-list-check',   num: orders.length,    label: lang === 'en' ? 'Total Orders' : 'إجمالي الطلبات',   cls: 'dash-stat-purple',  color: '#7c3aed' },
                   { icon: 'fa-hourglass-half', num: pendingOrders,  label: dt('overview.pendingOrds'),      cls: 'dash-stat-orange',  color: '#d97706' },
-                  { icon: 'fa-coins',        num: `${totalRevenue} د.ك`, label: dt('overview.totalRev'), cls: 'dash-stat-green', color: 'var(--primary)' },
+                  { icon: 'fa-coins',        num: `${Number(totalRevenue).toFixed(2)} ${currencySymbol}`, label: dt('overview.totalRev'), cls: 'dash-stat-green', color: 'var(--primary)' },
                 ].map((s, i) => (
                   <Reveal key={i} delay={i * 70} direction="up">
                   <div className="dash-stat">
@@ -1297,7 +1298,7 @@ const Dashboard = () => {
                           <td className="td-primary" style={{ fontWeight: 800 }}>
                             {p.variants?.length > 0
                               ? <span style={{ fontSize: '11px', color: 'var(--text-light)' }}>{lang === 'en' ? 'See variants' : 'انظر الفاريشنات'}</span>
-                              : <>{Number(p.price).toFixed(3)} <span style={{ fontSize: '11px' }}>د.ك</span></>}
+                              : <>{Number(p.price).toFixed(2)} <span style={{ fontSize: '11px' }}>{currencySymbol}</span></>}
                           </td>
                           <td>
                             {p.variants?.length > 0
@@ -1669,7 +1670,7 @@ const Dashboard = () => {
                     </div>
                     <div className="client-summary-stats">
                       <div className="client-stat"><span className="client-stat-num">{clientOrders.length}</span><span className="client-stat-label">{lang === 'en' ? 'Orders' : 'طلب'}</span></div>
-                      <div className="client-stat"><span className="client-stat-num">{totalSpent.toFixed(3)}</span><span className="client-stat-label">{lang === 'en' ? 'KD total' : 'د.ك إجمالي'}</span></div>
+                      <div className="client-stat"><span className="client-stat-num">{totalSpent.toFixed(2)}</span><span className="client-stat-label">{lang === 'en' ? `${currencySymbol} total` : `${currencySymbol} إجمالي`}</span></div>
                     </div>
                     <button className="client-summary-close" onClick={() => setClientFilter(null)} title={lang === 'en' ? 'Show all orders' : 'عرض كل الطلبات'}>
                       <i className="fas fa-xmark"></i> {lang === 'en' ? 'All Orders' : 'كل الطلبات'}
@@ -1781,7 +1782,7 @@ const Dashboard = () => {
                         <td className="td-light">{o.product}</td>
                         <td><span className="badge-pay">{o.payment || '—'}</span></td>
                         <td className="td-light" dir="ltr">{o.date}</td>
-                        <td className="td-bold">{Number(o.grandTotal || o.total || 0).toFixed(3)} د.ك</td>
+                        <td className="td-bold">{Number(o.grandTotal || o.total || 0).toFixed(2)} {currencySymbol}</td>
                         <td><span className={`status-badge status-${o.status}`}>{orderStatusLabels[o.status]?.[lang] || orderStatusLabels[o.status]?.ar || o.status}</span></td>
                         <td>
                           <button className="action-btn action-btn-edit" onClick={() => printInvoice(o)}>
@@ -2106,7 +2107,7 @@ const Dashboard = () => {
               {/* ── Zones ── */}
               {shippingTab === 'zones' && (
                 <>
-                  <p className="dash-section-desc">{lang === 'en' ? 'Control delivery zones and fees within Kuwait.' : 'تحكم في مناطق التوصيل ورسومها داخل الكويت.'}</p>
+                  <p className="dash-section-desc">{lang === 'en' ? 'Control delivery zones and fees within Egypt.' : 'تحكم في مناطق التوصيل ورسومها داخل مصر.'}</p>
                   <div className="shipping-zones-grid">
                     {shippingZones.map(zone => (
                       <div key={zone.id} className={`shipping-zone-card${zone.enabled ? '' : ' disabled-zone'}`}>
@@ -2119,8 +2120,8 @@ const Dashboard = () => {
                         </div>
                         <div className="zone-name-en">{zone.en}</div>
                         <div className="zone-fee-row">
-                          <label className="form-label" style={{ marginBottom: 0 }}>{lang === 'en' ? 'Delivery Fee (KD)' : 'رسوم التوصيل (د.ك)'}</label>
-                          <input className="form-input zone-fee-input" type="number" step="0.250" min="0" value={zone.fee} onChange={e => updateZoneFee(zone.id, e.target.value)} dir="ltr" disabled={!zone.enabled} />
+                          <label className="form-label" style={{ marginBottom: 0 }}>{lang === 'en' ? 'Delivery Fee (EGP)' : 'رسوم التوصيل (ج.م)'}</label>
+                          <input className="form-input zone-fee-input" type="number" step="1" min="0" value={zone.fee} onChange={e => updateZoneFee(zone.id, e.target.value)} dir="ltr" disabled={!zone.enabled} />
                         </div>
                       </div>
                     ))}
@@ -2210,6 +2211,56 @@ const Dashboard = () => {
                   )}
                 </div>
 
+                {/* InstaPay */}
+                <div className="gateway-card">
+                  <div className="gateway-header">
+                    <div className="gateway-info">
+                      <div className="gateway-icon" style={{ background: '#f5f3ff' }}>
+                        <i className="fas fa-money-bill-transfer" style={{ color: '#7c3aed' }}></i>
+                      </div>
+                      <div>
+                        <div className="gateway-name">{lang === 'en' ? 'InstaPay' : 'إنستاباي'}</div>
+                        <div className="gateway-sub">InstaPay Egypt</div>
+                      </div>
+                    </div>
+                    <label className="toggle-switch">
+                      <input type="checkbox" checked={paySettings.instapay?.enabled} onChange={() => toggleGateway('instapay')} />
+                      <span className="toggle-slider"></span>
+                    </label>
+                  </div>
+                  {paySettings.instapay?.enabled && (
+                    <div className="gateway-fields">
+                      <div className="form-group">
+                        <label className="form-label">{lang === 'en' ? 'InstaPay Address (IPA)' : 'عنوان الدفع (IPA)'}</label>
+                        <input className="form-input" value={paySettings.instapay?.ipa || ''} onChange={e => setGatewayField('instapay', 'ipa', e.target.value)} placeholder="username@instapay" />
+                      </div>
+                      <div className="form-group">
+                        <label className="form-label">{lang === 'en' ? 'Linked Phone' : 'رقم الهاتف المرتبط'}</label>
+                        <input className="form-input" value={paySettings.instapay?.phone || ''} onChange={e => setGatewayField('instapay', 'phone', e.target.value)} placeholder="010xxxxxxxx" />
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Apple Pay */}
+                <div className="gateway-card">
+                  <div className="gateway-header">
+                    <div className="gateway-info">
+                      <div className="gateway-icon" style={{ background: '#000' }}>
+                        <i className="fa-brands fa-apple" style={{ color: '#fff', fontSize: '20px' }}></i>
+                      </div>
+                      <div>
+                        <div className="gateway-name">Apple Pay</div>
+                        <div className="gateway-sub">{lang === 'en' ? 'Apple Pay (via WhatsApp Link)' : 'أبل باي (عبر رابط واتساب)'}</div>
+                      </div>
+                    </div>
+                    <label className="toggle-switch">
+                      <input type="checkbox" checked={paySettings.applepay?.enabled} onChange={() => toggleGateway('applepay')} />
+                      <span className="toggle-slider"></span>
+                    </label>
+                  </div>
+                </div>
+
                 {/* KNET */}
                 <div className="gateway-card">
                   <div className="gateway-header">
@@ -2293,8 +2344,8 @@ const Dashboard = () => {
                       <tr key={c.id}>
                         <td className="td-primary" dir="ltr">{c.code}</td>
                         <td><span className="badge-cat">{c.type === 'percent' ? (lang === 'en' ? 'Percent %' : 'نسبة %') : (lang === 'en' ? 'Fixed Amount' : 'مبلغ ثابت')}</span></td>
-                        <td className="td-bold">{c.type === 'percent' ? `${c.value}%` : `${c.value} د.ك`}</td>
-                        <td className="td-light">{c.minOrder ? `${c.minOrder} د.ك` : '—'}</td>
+                        <td className="td-bold">{c.type === 'percent' ? `${c.value}%` : `${c.value} ${currencySymbol}`}</td>
+                        <td className="td-light">{c.minOrder ? `${c.minOrder} ${currencySymbol}` : '—'}</td>
                         <td className="td-light">{c.usedCount || 0} / {c.maxUses || '∞'}</td>
                         <td className="td-light" dir="ltr">{c.expiry || '—'}</td>
                         <td><span className={`status-badge status-${c.status}`}>{c.status === 'active' ? dt('common.active') : dt('common.inactive')}</span></td>
@@ -2332,9 +2383,9 @@ const Dashboard = () => {
               {/* ── KPI Cards ── */}
               <div className="analytics-kpi-row">
                 {[
-                  { label: dt('overview.totalRev'),                                         value: `${analyticsData.grossRevenue.toFixed(3)} د.ك`, icon: 'fa-coins',         cls: 'kpi-blue'   },
+                  { label: dt('overview.totalRev'),                                         value: `${analyticsData.grossRevenue.toFixed(2)} ${currencySymbol}`, icon: 'fa-coins',         cls: 'kpi-blue'   },
                   { label: lang === 'en' ? 'Total Orders' : 'عدد الطلبات',                  value: analyticsData.completed.length,                  icon: 'fa-bag-shopping',  cls: 'kpi-purple' },
-                  { label: lang === 'en' ? 'Avg Order Value' : 'متوسط قيمة الطلب',         value: `${analyticsData.avgOrder.toFixed(3)} د.ك`,      icon: 'fa-chart-simple',  cls: 'kpi-green'  },
+                  { label: lang === 'en' ? 'Avg Order Value' : 'متوسط قيمة الطلب',         value: `${analyticsData.avgOrder.toFixed(2)} ${currencySymbol}`,      icon: 'fa-chart-simple',  cls: 'kpi-green'  },
                   { label: dt('overview.activeProds'),                                       value: activeCount,                                      icon: 'fa-box-open',      cls: 'kpi-orange' },
                   { label: lang === 'en' ? 'Unique Clients' : 'العملاء الفريدون',           value: analyticsData.uniqueClients,                      icon: 'fa-users',         cls: 'kpi-teal'   },
                 ].map((k, i) => (
@@ -2360,10 +2411,10 @@ const Dashboard = () => {
                   <div className="analytics-card-title"><i className="fas fa-receipt"></i> {lang === 'en' ? 'Sales Summary' : 'ملخص المبيعات'}</div>
                   <table className="analytics-breakdown-table">
                     <tbody>
-                      <tr><td>{lang === 'en' ? 'Gross Revenue' : 'الإيرادات الإجمالية'}</td><td>{analyticsData.grossRevenue.toFixed(3)} د.ك</td></tr>
-                      <tr><td>{lang === 'en' ? 'Discounts' : 'الخصومات'}</td><td className="text-red">- {analyticsData.discounts.toFixed(3)} د.ك</td></tr>
-                      <tr><td>{lang === 'en' ? 'Shipping Fees' : 'رسوم الشحن'}</td><td>{analyticsData.shipping.toFixed(3)} د.ك</td></tr>
-                      <tr className="breakdown-net"><td>{lang === 'en' ? 'Net' : 'الصافي'}</td><td>{analyticsData.net.toFixed(3)} د.ك</td></tr>
+                      <tr><td>{lang === 'en' ? 'Gross Revenue' : 'الإيرادات الإجمالية'}</td><td>{analyticsData.grossRevenue.toFixed(2)} {currencySymbol}</td></tr>
+                      <tr><td>{lang === 'en' ? 'Discounts' : 'الخصومات'}</td><td className="text-red">- {analyticsData.discounts.toFixed(2)} {currencySymbol}</td></tr>
+                      <tr><td>{lang === 'en' ? 'Shipping Fees' : 'رسوم الشحن'}</td><td>{analyticsData.shipping.toFixed(2)} {currencySymbol}</td></tr>
+                      <tr className="breakdown-net"><td>{lang === 'en' ? 'Net' : 'الصافي'}</td><td>{analyticsData.net.toFixed(2)} {currencySymbol}</td></tr>
                       <tr><td>{lang === 'en' ? 'Cancelled' : 'ملغاة'}</td><td>{analyticsData.inRange.filter(o=>o.status==='cancelled').length} {lang === 'en' ? 'orders' : 'طلب'}</td></tr>
                     </tbody>
                   </table>
@@ -2378,7 +2429,7 @@ const Dashboard = () => {
                 </div>
                 <div className="analytics-card">
                   <div className="analytics-card-title"><i className="fas fa-trophy"></i> {lang === 'en' ? 'Top Products (by revenue)' : 'أفضل المنتجات (مبيعاً)'}</div>
-                  {analyticsData.topProducts.length ? <HBar items={analyticsData.topProducts} unit=" د.ك" /> : <div className="analytics-empty-chart">{dt('common.noData')}</div>}
+                  {analyticsData.topProducts.length ? <HBar items={analyticsData.topProducts} unit={` ${currencySymbol}`} /> : <div className="analytics-empty-chart">{dt('common.noData')}</div>}
                 </div>
                 <div className="analytics-card">
                   <div className="analytics-card-title"><i className="fas fa-map-location-dot"></i> {lang === 'en' ? 'Top Regions' : 'أفضل المناطق'}</div>
@@ -2405,7 +2456,7 @@ const Dashboard = () => {
                               </td>
                               <td className="text-muted" dir="ltr">{c.phone || '—'}</td>
                               <td>{c.orders}</td>
-                              <td className="analytics-money">{c.total.toFixed(3)} د.ك</td>
+                              <td className="analytics-money">{c.total.toFixed(2)} {currencySymbol}</td>
                             </tr>
                           ))}
                         </tbody>
@@ -2495,7 +2546,7 @@ const Dashboard = () => {
                 </div>
                 <div className="modal-grid2">
                   <div className="form-group"><label className="form-label">{dt('products.category')}</label><select className="form-select" name="category" value={productForm.category} onChange={e => setProductForm(p=>({...p,[e.target.name]:e.target.value}))}>{flattenTree(buildCatTree(categories)).map(c => (<option key={c.slug} value={c.slug}>{'　'.repeat(c.depth)}{c.depth > 0 ? '└ ' : ''}{c.nameAr}</option>))}</select></div>
-                  <div className="form-group"><label className="form-label">{dt('products.status')}</label><select className="form-select" name="status" value={productForm.status} onChange={e => setProductForm(p=>({...p,[e.target.name]:e.target.value}))}>{Object.entries(productStatusLabels).map(([k,v])=><option key={k} value={k}>{v?.[lang] || v?.ar}</option>)}</select></div>
+                  <div className="form-group"><label className="form-label">{dt('products.status')}</label><select className="form-select" name="status" value={productForm.status} onChange={e => setProductForm(p=>({...p,[e.target.name]:e.target.value}))} >{Object.entries(productStatusLabels).map(([k,v])=><option key={k} value={k}>{v?.[lang] || v?.ar}</option>)}</select></div>
                 </div>
                 <div className="modal-grid2">
                   <div className="form-group"><label className="form-label">{dt('products.price')} *</label><input className="form-input" type="number" step="0.001" min="0" name="price" value={productForm.price} onChange={e => setProductForm(p=>({...p,[e.target.name]:e.target.value}))} required dir="ltr" /></div>

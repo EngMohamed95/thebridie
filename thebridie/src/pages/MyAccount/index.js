@@ -54,8 +54,8 @@ const OrderRow = ({ order, lang }) => {
             {lang === 'ar' ? status.ar : status.en}
           </span>
           <span className="ma-order-total">
-            {order.total}
-            <span className="ma-currency">{lang === 'ar' ? ' د.ك' : ' KWD'}</span>
+            {parseFloat(order.grandTotal || order.total).toFixed(2)}
+            <span className="ma-currency">{lang === 'ar' ? ' ج.م' : ' EGP'}</span>
           </span>
         </div>
         <i className={`fas fa-chevron-${open ? 'up' : 'down'} ma-order-chevron`} aria-hidden="true" />
@@ -77,8 +77,8 @@ const OrderRow = ({ order, lang }) => {
                   <td>{item.name}</td>
                   <td className="ma-items-qty">{item.qty}</td>
                   <td className="ma-items-price">
-                    {(item.price * item.qty).toFixed(3)}
-                    <span className="ma-currency">{lang === 'ar' ? ' د.ك' : ' KWD'}</span>
+                    {(item.price * item.qty).toFixed(2)}
+                    <span className="ma-currency">{lang === 'ar' ? ' ج.م' : ' EGP'}</span>
                   </td>
                 </tr>
               ))}

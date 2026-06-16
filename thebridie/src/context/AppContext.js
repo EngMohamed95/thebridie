@@ -173,13 +173,17 @@ export const AppProvider = ({ children }) => {
   /* ── Submit Order ── */
   const submitOrder = async (orderData) => {
     const ref = 'ORD-' + Date.now();
+    const delivery = parseFloat(orderData.deliveryFee || 0);
+    const sub = parseFloat(orderData.total || cartTotal);
     const order = {
       ref,
       ...orderData,
       items: cart,
-      total: cartTotal.toFixed(3),
+      total: sub.toFixed(2),
+      deliveryFee: delivery.toFixed(2),
+      grandTotal: (sub + delivery).toFixed(2),
       status: 'pending',
-      date: new Date().toLocaleDateString('ar-EG'),
+      date: new Date().toLocaleDateString('en-GB'),
     };
     const saved = await api.createOrder(order);
     setOrders(prev => [...prev, saved]);
