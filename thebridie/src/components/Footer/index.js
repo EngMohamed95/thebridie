@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../../context/LanguageContext';
 
-const LOGO_URL = '/logos/thebridie-logo.png?v=2';
+const LOGO_URL = '/logos/logo2.png?v=2';
 
 const Footer = () => {
   const { t } = useLanguage();

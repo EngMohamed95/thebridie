@@ -84,20 +84,21 @@
 /* ── Desktop links ── */
 .nav-links {
   display: flex;
-  gap: 20px;
+  gap: clamp(8px, 1.2vw, 16px);
   align-items: center;
 }
 
 .nav-link {
   text-decoration: none;
   color: var(--ink);
-  font-size: 13px;
-  letter-spacing: .08em;
+  font-size: 12px;
+  letter-spacing: .05em;
   text-transform: uppercase;
   font-weight: 500;
   transition: color .2s, background-color 0.2s;
-  padding: 6px 12px;
+  padding: 6px 10px;
   border-radius: 8px;
+  white-space: nowrap;
 }
 
 [dir="rtl"] .nav-link {

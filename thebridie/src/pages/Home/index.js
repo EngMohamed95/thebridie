@@ -496,15 +496,13 @@ const Home = () => {
       {/* Scrolling Marquee */}
       <div className="marquee-wrap" aria-hidden="true">
         <div className="mq">
-          {[1, 2, 3].map(loopIdx => (
-            <span key={loopIdx}>
-              {translations.landing.marquee.map((item, idx) => (
-                <span key={idx} style={{ display: 'inline', fontFamily: 'Caveat', fontStyle: 'normal' }}>
-                  {item[lang] || item.ar}
-                </span>
-              ))}
-            </span>
-          ))}
+          {[1, 2, 3, 4, 5, 6].map(loopIdx => 
+            translations.landing.marquee.map((item, idx) => (
+              <span key={`${loopIdx}_${idx}`}>
+                {item[lang] || item.ar}
+              </span>
+            ))
+          )}
         </div>
       </div>
 

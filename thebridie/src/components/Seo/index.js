@@ -36,7 +36,7 @@ const Seo = ({ title, description, keywords, noIndex = false }) => {
         "@type": "Organization",
         "name": "The Bridie",
         "url": "https://thebridie.com",
-        "logo": "https://thebridie.com/logos/thebridie-logo.png",
+        "logo": "https://thebridie.com/logos/logo2.png?v=2",
         "foundingDate": "1998",
         "telephone": "+96523263824",
         "email": "info@thebridie.com",

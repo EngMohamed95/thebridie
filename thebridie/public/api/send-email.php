@@ -212,7 +212,7 @@ $html = <<<HTML
   <!-- Header -->
   <tr><td style="background:linear-gradient(135deg,#1e40af,#1d4ed8);padding:40px;text-align:center;">
     <div style="display:inline-block;background:#ffffff;border-radius:16px;padding:14px 32px;box-shadow:0 4px 16px rgba(0,0,0,0.2);">
-      <img src="https://thebridie.com/logos/thebridie-logo.png?v=2" alt="The Bridie" style="height:60px;max-width:180px;display:block;object-fit:contain;" />
+      <img src="https://thebridie.com/logos/logo2.png?v=2" alt="The Bridie" style="height:60px;max-width:180px;display:block;object-fit:contain;" />
     </div>
   </td></tr>
 

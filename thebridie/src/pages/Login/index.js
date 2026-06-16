@@ -5,7 +5,7 @@ import { useLanguage } from '../../context/LanguageContext';
 import Seo from '../../components/Seo';
 import './index.css';
 
-const LOGO_URL = '/logos/thebridie-logo.png?v=2';
+const LOGO_URL = '/logos/logo2.png?v=2';
 
 const Login = () => {
   const [form, setForm]         = useState({ username: '', password: '' });

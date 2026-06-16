@@ -6,7 +6,7 @@ import Seo from '../../components/Seo';
 import '../Login/index.css';
 import './index.css';
 
-const LOGO_URL = '/logos/thebridie-logo.png?v=2';
+const LOGO_URL = '/logos/logo2.png?v=2';
 
 const Register = () => {
   const [form, setForm]       = useState({ name: '', username: '', phone: '', email: '', password: '', confirm: '' });
