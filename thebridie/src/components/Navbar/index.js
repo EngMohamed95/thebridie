@@ -70,28 +70,21 @@ const Navbar = () => {
   const currency = t('products.currency') || 'د.ك';
 
   return (
-    <nav className="navbar" role="navigation" aria-label="القائمة الرئيسية">
+    <nav className="navbar" role="navigation" aria-label="Main Navigation">
       {/* Top slate banner bar */}
       <div className="nav-topbar">
         <div className="nav-topbar-content">
-          <span>{lang === 'ar' ? 'شحن سريع لجميع مناطق الكويت 🎀' : 'Fast delivery to all Kuwait areas 🎀'}</span>
-          <button
-            className="nav-lang-btn"
-            onClick={() => setLang(lang === 'ar' ? 'en' : 'ar')}
-            aria-label="تغيير اللغة"
-          >
-            {lang === 'ar' ? 'English' : 'العربية'}
-          </button>
+          <span>Fast delivery to all Kuwait areas 🎀</span>
         </div>
       </div>
 
       <div className="navbar-inner">
         {/* Logo */}
-        <Link to="/" className="nav-logo" aria-label="ذا برايدي — الصفحة الرئيسية">
+        <Link to="/" className="nav-logo" aria-label="The Bridie — Home">
           {!logoFailed ? (
-            <img src={LOGO_URL} alt="ذا برايدي" className="nav-logo-img" onError={() => setLogoFailed(true)} />
+            <img src={LOGO_URL} alt="The Bridie" className="nav-logo-img" onError={() => setLogoFailed(true)} />
           ) : (
-            <span className="nav-logo-text">ذا برايدي</span>
+            <span className="nav-logo-text">The Bridie</span>
           )}
         </Link>
 
@@ -218,7 +211,7 @@ const Navbar = () => {
             className="hamburger"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-expanded={menuOpen}
-            aria-label="فتح القائمة"
+            aria-label="Open Menu"
           >
             <i className={`fas fa-${menuOpen ? 'xmark' : 'bars'}`} aria-hidden="true"></i>
           </button>
@@ -234,11 +227,11 @@ const Navbar = () => {
       <div className={`mobile-nav${menuOpen ? ' open' : ''}`} role="menu" aria-hidden={!menuOpen}>
         <div className="mobile-nav-header">
           {!logoFailed ? (
-            <img src={LOGO_URL} alt="ذا برايدي" style={{ height: '30px' }} onError={() => setLogoFailed(true)} />
+            <img src={LOGO_URL} alt="The Bridie" style={{ height: '30px' }} onError={() => setLogoFailed(true)} />
           ) : (
-            <span style={{ fontWeight: '800', fontSize: '20px', color: '#fff' }}>ذا برايدي</span>
+            <span style={{ fontWeight: '800', fontSize: '20px', color: '#fff' }}>The Bridie</span>
           )}
-          <button className="mobile-nav-close" onClick={() => setMenuOpen(false)} aria-label="إغلاق القائمة">
+          <button className="mobile-nav-close" onClick={() => setMenuOpen(false)} aria-label="Close Menu">
             <i className="fas fa-xmark"></i>
           </button>
         </div>

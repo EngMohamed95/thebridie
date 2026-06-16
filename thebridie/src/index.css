@@ -54,7 +54,7 @@ html {
 
 body {
   --cf-cache-buster-css: 4;
-  font-family: 'Tajawal', sans-serif;
+  font-family: 'Jost', sans-serif;
   font-weight: 300;
   font-size: 16px;
   line-height: 1.65;
@@ -66,16 +66,10 @@ body {
   background-size: auto, 30px 30px;
   background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
-  direction: rtl;
-  text-align: right;
-  max-width: 100%;
-  overflow-x: hidden;
-}
-
-[lang="en"] body, [lang="en"] {
-  font-family: 'Jost', sans-serif;
   direction: ltr;
   text-align: left;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .app {
@@ -88,8 +82,7 @@ body {
 main { position: relative; z-index: 2; flex: 1; }
 a { text-decoration: none; color: inherit; }
 img { max-width: 100%; height: auto; }
-button, input, select, textarea { cursor: pointer; font-family: 'Tajawal', sans-serif; }
-[lang="en"] button, [lang="en"] input, [lang="en"] select, [lang="en"] textarea { font-family: 'Jost', sans-serif; }
+button, input, select, textarea { cursor: pointer; font-family: 'Jost', sans-serif; }
 h1,h2,h3,h4,h5,h6 {
   font-family: 'Cormorant Garamond', serif;
   font-weight: 600;
@@ -616,9 +609,9 @@ tr:hover td { background: var(--bg); }
 .quote-section { background: linear-gradient(135deg, var(--primary), var(--primary-light)); padding: 80px 0; color: white; text-align: center; }
 .quote-icon { font-size: 3.5rem; opacity: 0.25; margin-bottom: -10px; }
 .quote-text { font-size: 1.4rem; font-weight: 500; line-height: 1.8; max-width: 700px; margin: 0 auto 25px; font-style: italic; }
-.quote-ceo-wrap { display: inline-flex; align-items: center; gap: 16px; margin-top: 20px; direction: ltr; }
+.quote-ceo-wrap { display: inline-flex; align-items: center; gap: 16px; margin-top: 20px; }
 .quote-ceo-img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; object-position: top; border: 3px solid rgba(255,255,255,0.8); flex-shrink: 0; box-shadow: 0 4px 16px rgba(0,0,0,0.25); }
-.quote-ceo-info { text-align: right; direction: rtl; }
+.quote-ceo-info { text-align: left; }
 .quote-author { font-weight: 700; font-size: 1.05rem; margin: 0; }
 .quote-author-title { font-size: 0.88rem; opacity: 0.75; margin: 4px 0 0; }
 

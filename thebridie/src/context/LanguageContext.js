@@ -4,16 +4,15 @@ import translations from '../translations';
 const LanguageContext = createContext(null);
 
 export const LanguageProvider = ({ children }) => {
-  const [lang, setLangState] = useState(() => localStorage.getItem('jawhara_lang') || 'ar');
+  const [lang, setLangState] = useState('en');
 
   useEffect(() => {
-    document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-    document.documentElement.setAttribute('lang', lang);
-  }, [lang]);
+    document.documentElement.setAttribute('dir', 'ltr');
+    document.documentElement.setAttribute('lang', 'en');
+  }, []);
 
   const setLang = (l) => {
-    setLangState(l);
-    localStorage.setItem('jawhara_lang', l);
+    // English only, ignore changing
   };
 
   const t = (key) => {

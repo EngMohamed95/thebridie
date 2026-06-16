@@ -23,9 +23,9 @@ const Footer = () => {
         {/* Logo */}
         <div className="foot-brand" style={{ display: 'flex', alignItems: 'center' }}>
           {!logoFailed ? (
-            <img src={LOGO_URL} alt="ذا برايدي" style={{ height: '52px', width: 'auto' }} onError={() => setLogoFailed(true)} />
+            <img src={LOGO_URL} alt="The Bridie" style={{ height: '52px', width: 'auto' }} onError={() => setLogoFailed(true)} />
           ) : (
-            <span style={{ fontWeight: '800', fontSize: '20px', color: 'var(--rose)' }}>ذا برايدي</span>
+            <span style={{ fontWeight: '800', fontSize: '20px', color: 'var(--rose)' }}>The Bridie</span>
           )}
         </div>
 

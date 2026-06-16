@@ -1,8 +1,8 @@
 import { Helmet } from 'react-helmet-async';
 
-const SITE = 'ذا برايدي';
-const DEFAULT_DESC = 'ذا برايدي — تيشيرتات وهدايا مخصصة للعروس ووصيفاتها ليوم زفاف مميز. تيشيرتات قطنية ناعمة مطبوعة بجودة عالية لمناسباتكم السعيدة.';
-const DEFAULT_KW   = 'تيشيرتات عروس، تيشيرتات وصيفات، ذا برايدي، هدايا العروسة، تيشيرتات مطبوعة، Bride Tees, Bridesmaid Tees, The Bridie Kuwait';
+const SITE = 'The Bridie';
+const DEFAULT_DESC = 'The Bridie — Custom bride & bridesmaid tees and squad gifts for a beautiful wedding day. Soft, custom printed cotton tees for your special day.';
+const DEFAULT_KW   = 'bride tees, bridesmaid tees, custom wedding gifts, the bridie kuwait, wedding shirts';
 
 const Seo = ({ title, description, keywords, noIndex = false }) => {
   const fullTitle = title ? `${title} | ${SITE}` : SITE;
@@ -10,11 +10,11 @@ const Seo = ({ title, description, keywords, noIndex = false }) => {
   return (
     <Helmet>
       {/* Primary */}
-      <html lang="ar" dir="rtl" />
+      <html lang="en" dir="ltr" />
       <title>{fullTitle}</title>
       <meta name="description"  content={description || DEFAULT_DESC} />
       <meta name="keywords"     content={keywords    || DEFAULT_KW} />
-      <meta name="author"       content="ذا برايدي" />
+      <meta name="author"       content="The Bridie" />
       <meta name="robots"       content={noIndex ? 'noindex,nofollow' : 'index,follow'} />
       <link rel="canonical"     href={typeof window !== 'undefined' ? window.location.href : '/'} />
 
@@ -23,7 +23,7 @@ const Seo = ({ title, description, keywords, noIndex = false }) => {
       <meta property="og:site_name"   content={SITE} />
       <meta property="og:title"       content={fullTitle} />
       <meta property="og:description" content={description || DEFAULT_DESC} />
-      <meta property="og:locale"      content="ar_KW" />
+      <meta property="og:locale"      content="en_US" />
 
       {/* Twitter */}
       <meta name="twitter:card"        content="summary" />
@@ -34,7 +34,7 @@ const Seo = ({ title, description, keywords, noIndex = false }) => {
       <script type="application/ld+json">{JSON.stringify({
         "@context": "https://schema.org",
         "@type": "Organization",
-        "name": "ذا برايدي",
+        "name": "The Bridie",
         "url": "https://thebridie.com",
         "logo": "https://thebridie.com/logos/thebridie-logo.png",
         "foundingDate": "1998",
@@ -42,7 +42,7 @@ const Seo = ({ title, description, keywords, noIndex = false }) => {
         "email": "info@thebridie.com",
         "address": {
           "@type": "PostalAddress",
-          "addressLocality": "الشعيبة",
+          "addressLocality": "Shuaiba",
           "addressCountry": "KW"
         },
         "sameAs": ["https://thebridie.com"]
