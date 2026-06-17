@@ -49,7 +49,7 @@
 html {
   scroll-behavior: smooth;
   max-width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
@@ -69,7 +69,7 @@ body {
   direction: ltr;
   text-align: left;
   max-width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 .app {
@@ -77,7 +77,7 @@ body {
   display: flex;
   flex-direction: column;
   max-width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 main { position: relative; z-index: 2; flex: 1; }
 a { text-decoration: none; color: inherit; }

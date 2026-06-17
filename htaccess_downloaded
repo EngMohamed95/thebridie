@@ -1,4 +1,4 @@
-# Options +FollowSymLinks -MultiViews
+Options +FollowSymLinks -MultiViews
 RewriteEngine On
 
 # If a static file does not exist on the server, return 404 immediately
