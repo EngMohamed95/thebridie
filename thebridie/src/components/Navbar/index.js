@@ -13,7 +13,7 @@ const Navbar = () => {
   const location  = useLocation();
   const navigate  = useNavigate();
   const { auth, logout, cart, cartTotal, cartTotalQty, updateCartQty, removeFromCart } = useApp();
-  const { lang, setLang, t } = useLanguage();
+  const { lang, t } = useLanguage();
   const cartRef = useRef(null);
 
   const navLinks = [

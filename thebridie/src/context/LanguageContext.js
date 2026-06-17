@@ -1,10 +1,10 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useEffect } from 'react';
 import translations from '../translations';
 
 const LanguageContext = createContext(null);
 
 export const LanguageProvider = ({ children }) => {
-  const [lang, setLangState] = useState('en');
+  const lang = 'en';
 
   useEffect(() => {
     document.documentElement.setAttribute('dir', 'ltr');
